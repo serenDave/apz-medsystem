@@ -1,9 +1,8 @@
-const path = require('path'),
-    express = require('express'),
-    mongoose = require('mongoose'),
-    morgan = require('morgan'),
-    bodyParser = require('body-parser'),
-    exampleRouter = require('../routes/examples.server.routes');
+const path = require('path');
+const express = require('express');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+const exampleRouter = require('../routes/examples.server.routes');
 
 module.exports.init = () => {
     /* 
@@ -23,7 +22,7 @@ module.exports.init = () => {
     app.use(morgan('dev'));
 
     // body parsing middleware
-    app.use(bodyParser.json());
+    app.use(express.json());
 
     // add a router
     app.use('/api/example', exampleRouter);
