@@ -2,15 +2,15 @@ const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const exampleRouter = require('../routes/examples.server.routes');
+const cors = require('cors');
+
+const indexRouter = require('../routes/index.routes');
 
 module.exports.init = () => {
-    /* 
-        connect to database
-        - reference README for db uri
-    */
+    // DB connection
     mongoose.connect(process.env.DB_URI || require('./config').db.uri, {
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useUnifiedTopology: true
     });
     mongoose.set('useCreateIndex', true);
     mongoose.set('useFindAndModify', false);
@@ -22,10 +22,14 @@ module.exports.init = () => {
     app.use(morgan('dev'));
 
     // body parsing middleware
-    app.use(express.json());
+    app.use(express.json({ limit: '10kb' }));
+    app.use(express.urlencoded({ extended: true, limit: '10kb' }))
+
+    // enable cors
+    app.use(cors());
 
     // add a router
-    app.use('/api/example', exampleRouter);
+    app.use('/api', indexRouter);
 
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files
@@ -39,4 +43,3 @@ module.exports.init = () => {
 
     return app
 }
-
