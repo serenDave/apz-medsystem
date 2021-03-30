@@ -13,6 +13,11 @@ const requestSchema = new mongoose.Schema({
     type: String,
     enum: ['highest', 'high', 'medium', 'low'],
     required: true
+  },
+  status: {
+    type: String,
+    enum: ['opened', 'resolved'],
+    default: 'opened'
   }
 });
 

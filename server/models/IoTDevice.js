@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const iotDeviceSchema = new mongoose.Schema({
+  number: String,
   lighting: {
     type: Number,
     default: 800,
@@ -9,6 +10,10 @@ const iotDeviceSchema = new mongoose.Schema({
     type: String,
     default: 'ok',
     enum: ['ok', 'middle', 'bad']
+  },
+  ignored: {
+    type: Boolean,
+    default: false
   },
   location: [Number],
 });

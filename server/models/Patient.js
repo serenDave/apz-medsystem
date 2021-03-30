@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Ward = require('./Ward');
 
 const patientSchema = new mongoose.Schema({
   fullName: {
@@ -7,16 +8,17 @@ const patientSchema = new mongoose.Schema({
     maxlength: [30, "Patient's full name can't be more than 30 characters"]
   },
   dateOfBirth: Date,
-  mobileNumber: Number,
+  mobileNumber: String,
   deliveryReason: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'DeliveryReason',
     required: true
   },
   diagnosis: String,
   wardId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Ward',
-    // required: [true, 'Patient must be set to some word.']
+    required: [true, 'Patient must be set to some ward.']
   },
   iotDeviceId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -44,6 +46,13 @@ const patientSchema = new mongoose.Schema({
     type: Number,
     default: 36.6
   }
+});
+
+patientSchema.post('save', async function(doc) {
+  const ward = await Ward.findById(doc.wardId);
+  
+  ward.patientsCount++;
+  await ward.save();
 });
 
 const Patient = mongoose.model('Patient', patientSchema);

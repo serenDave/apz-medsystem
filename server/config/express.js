@@ -4,6 +4,12 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const cors = require('cors');
 
+// Initialize cron
+const cron = require('../crons/main');
+
+// Error handler
+const errorHandler = require('../utils/errors/errorController');
+
 const indexRouter = require('../routes/index.routes');
 
 module.exports.init = () => {
@@ -30,6 +36,8 @@ module.exports.init = () => {
 
     // add a router
     app.use('/api', indexRouter);
+
+    app.use(errorHandler);
 
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files

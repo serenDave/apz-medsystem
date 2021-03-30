@@ -13,4 +13,8 @@ router
   .patch(RequestController.updateRequest)
   .delete(RequestController.deleteRequest);
 
+router.post('/new', RequestController.processNewRequest);
+router.post('/doctor-response', RequestController.processDoctorResponse);
+router.post('/doctor-finished', RequestController.processDoctorFinished);
+
 module.exports = router;
