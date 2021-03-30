@@ -7,27 +7,51 @@ const sendNotification = (receiver, patient, message) => {
   console.log(`Sending notification of patient: ${patient} to doctor: ${receiver} with message: ${message}`);
 };
 
-exports.processRequest = async (patient, message, priority, request = false) => {
+const setTimeoutResponse = (doctorId, requestData) => {
+  setTimeout((doctorId, requestData) => {
+    Doctor.findById(doctorId).then((doctor) => {
+      if (!doctor.patients.includes(patientId)) {
+        exports.processRequest(
+          requestData.patient,
+          requestData.message,
+          requestData.priority,
+          false, 
+          [doctorId]
+        );
+      }
+    });
+  }, 1000, doctorId, requestData);
+};
+
+exports.processRequest = async (patient, message, priority, request = false, notSendToDoctors = false) => {
   const takingCareDoctors = await Doctor.find({
     patients: { $in: [patient.id] }
   });
 
   if (!takingCareDoctors.length) {
     const freeDoctors = await Doctor.find({
+      id: { $in: [notSendToDoctors] },
       status: 'free'
     });
 
-    if (freeDoctors && freeDoctors.length) {
-      freeDoctors.forEach((doctor) => {
-        sendNotification(doctor.fullName, patient.fullName, message);
-      });
-    } else {
-      const requestData = {
-        patientId: patient.id,
-        requestType: message,
-        priority
-      };
+    const requestData = {
+      patientId: patient.id,
+      requestType: message,
+      priority
+    };
 
+    if (freeDoctors && freeDoctors.length) {
+      for (let i = 0; i < freeDoctors.length; i++) {
+        const currentDoctor = freeDoctors[i];
+
+        if (notSendToDoctors.includes(currentDoctor.id)) {
+          continue;
+        } else if (currentDoctor.status === 'free') {
+          sendNotification(currentDoctor.fullName, patient.fullName, message);
+          setTimeoutResponse(currentDoctor.id, { ...requestData, patient });
+        }
+      }
+    } else {
       if (!request) {
         await Request.create(requestData);
       } else {
@@ -38,12 +62,15 @@ exports.processRequest = async (patient, message, priority, request = false) => 
 
       if (['high', 'highest'].includes(priority)) {
         const nurses = await Doctor.find({
+          id: { $in: [notSendToDoctors] },
           speciality: 'NURSE'
         });
 
-        nurses.forEach((nurse) => {
-          sendNotification(nurse.fullName, patient.fullName, message);
-        });
+        for (let i = 0; i < nurses.length; i++) {
+          const currentNurse = nurses[i];
+          sendNotification(currentNurse.fullName, patient.fullName, message);
+          setTimeoutResponse(currentNurse.id, { ...requestData, patient });
+        }
       }
     }
   }
