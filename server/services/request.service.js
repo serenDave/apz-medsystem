@@ -33,6 +33,8 @@ exports.processRequest = async (patient, message, priority, request = false, not
     patients: { $in: [patient.id] }
   });
 
+  let shouldSaveRequest = false;
+
   if (!takingCareDoctors.length) {
     const freeDoctors = await Doctor.find({
       id: { $nin: notSendToDoctors },
@@ -46,6 +48,8 @@ exports.processRequest = async (patient, message, priority, request = false, not
     };
 
     if (freeDoctors && freeDoctors.length) {
+      let notificationSent = false;
+
       for (let i = 0; i < freeDoctors.length; i++) {
         const currentDoctor = freeDoctors[i];
 
@@ -54,10 +58,21 @@ exports.processRequest = async (patient, message, priority, request = false, not
         } else if (currentDoctor.status === 'free') {
           sendNotification(currentDoctor.fullName, patient.fullName, message);
           setTimeoutResponse(currentDoctor.id, { ...requestData, patient }, notSendToDoctors);
+          notificationSent = true;
           break;
         }
       }
+
+      if (!notificationSent) {
+        shouldSaveRequest = true;
+      }
     } else {
+      shouldSaveRequest = true;
+    }
+    
+    if (shouldSaveRequest) {
+      console.log(`Saving request for ${patient.fullName}`)
+
       if (!request) {
         await Request.create(requestData);
       } else {
@@ -114,6 +129,6 @@ exports.processScheduledRequests = async (priorities) => {
   await forEach(scheduledRequests, async (request) => {
     const patient = await Patient.findById(request.patientId);
 
-    await this.processRequest(patient, request.message, request.priority);
+    await this.processRequest(patient, request.requestType, request.priority);
   });
 };

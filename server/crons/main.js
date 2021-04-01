@@ -8,7 +8,7 @@ const {
 Config.findById(process.env.CONFIG_RECORD_ID)
   .then((config) => {
     cron.schedule(`*/${config.lowPriorityRequestsFrequency} * * * *`, () => {
-      processScheduledRequests(['low', 'middle']);
+      processScheduledRequests(['low', 'medium']);
     });
     
     cron.schedule(`*/${config.highPriorityRequestsFrequency} * * * *`, () => {
