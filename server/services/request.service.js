@@ -22,7 +22,7 @@ const setTimeoutResponse = (doctorId, requestData, notSendToDoctors = []) => {
         }
       });
     },
-    1000 * 5,
+    1000 * 60,
     doctorId,
     requestData
   );
