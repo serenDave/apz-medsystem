@@ -5,22 +5,22 @@ const {
   clearResolvedRequests
 } = require('../services/request.service');
 
-Config.findById(process.env.CONFIG_RECORD_ID)
-  .then((config) => {
-    cron.schedule(`*/${config.lowPriorityRequestsFrequency} * * * *`, () => {
-      processScheduledRequests(['low', 'medium']);
-    });
+// Config.findById(process.env.CONFIG_RECORD_ID)
+//   .then((config) => {
+//     cron.schedule(`*/${config.lowPriorityRequestsFrequency} * * * *`, () => {
+//       processScheduledRequests(['low', 'medium']);
+//     });
     
-    cron.schedule(`*/${config.highPriorityRequestsFrequency} * * * *`, () => {
-      processScheduledRequests(['high', 'highest']);
-    });
+//     cron.schedule(`*/${config.highPriorityRequestsFrequency} * * * *`, () => {
+//       processScheduledRequests(['high', 'highest']);
+//     });
     
-    cron.schedule('* 7 * * *', () => {
-      clearResolvedRequests();
-    });
-  })
-  .catch((_) => {
-    console.log('Could not find config for cron jobs');
-  });
+//     cron.schedule('* 7 * * *', () => {
+//       clearResolvedRequests();
+//     });
+//   })
+//   .catch((_) => {
+//     console.log('Could not find config for cron jobs');
+//   });
 
 module.exports = cron;

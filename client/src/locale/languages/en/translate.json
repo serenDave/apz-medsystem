@@ -1,0 +1,20 @@
+{
+  "translations": {
+    "header": {
+      "login": "Login",
+      "dashboard": "Dashboard",
+      "patients": "Patients",
+      "requests": "Requests",
+      "doctors": "Doctors",
+      "users": "Users"
+    },
+    "login": {
+      "title": "Enter your credentials below to access medsystem.",
+      "email": "Email",
+      "helperEmail": "Enter your email",
+      "password": "Password",
+      "helperPassword": "Enter your password",
+      "login": "Login"
+    }
+  }
+}
