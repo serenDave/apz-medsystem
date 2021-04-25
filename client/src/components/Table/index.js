@@ -24,13 +24,13 @@ const descendingComparator = (a, b, orderBy) => {
     return 1;
   }
   return 0;
-}
+};
 
 const getComparator = (order, orderBy) => {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
-}
+};
 
 const stableSort = (array, comparator) => {
   const stabilizedThis = array.map((el, index) => [el, index]);
@@ -40,9 +40,9 @@ const stableSort = (array, comparator) => {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  
+
   return stabilizedThis.map((el) => el[0]);
-}
+};
 
 const EnhancedTableHead = (props) => {
   const {
@@ -112,7 +112,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
-  const { numSelected, header } = props;
+  const { numSelected, header, onDelete } = props;
 
   return (
     <Toolbar className={clsx(classes.root, { [classes.highlight]: numSelected > 0 })}>
@@ -127,7 +127,7 @@ const EnhancedTableToolbar = (props) => {
       )}
       {numSelected > 0 ? (
         <Tooltip title='Delete'>
-          <IconButton aria-label='delete'>
+          <IconButton aria-label='delete' onClick={onDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -156,7 +156,15 @@ const useTableStyles = makeStyles((theme) => ({
   }
 }));
 
-const EnhancedTable = ({ initialOrderProp, rowsData, headCells, header, rowsPerPage }) => {
+const EnhancedTable = ({
+  initialOrderProp,
+  rowsData,
+  headCells,
+  header,
+  rowsPerPage,
+  onRowClick,
+  onDelete
+}) => {
   const classes = useTableStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState(initialOrderProp);
@@ -203,9 +211,14 @@ const EnhancedTable = ({ initialOrderProp, rowsData, headCells, header, rowsPerP
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rowsData.length - page * rowsPerPage);
 
+  const onDeleteHandler = () => {
+    setSelected([]);
+    onDelete(selected);
+  };
+
   return (
     <div className={classes.root}>
-      <EnhancedTableToolbar numSelected={selected.length} header={header} />
+      <EnhancedTableToolbar numSelected={selected.length} header={header} onDelete={onDeleteHandler} />
       <TableContainer>
         <Table
           className={classes.table}
@@ -233,7 +246,7 @@ const EnhancedTable = ({ initialOrderProp, rowsData, headCells, header, rowsPerP
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.id)}
+                    onClick={() => onRowClick(row)}
                     role='checkbox'
                     aria-checked={isItemSelected}
                     tabIndex={-1}
@@ -241,16 +254,19 @@ const EnhancedTable = ({ initialOrderProp, rowsData, headCells, header, rowsPerP
                     selected={isItemSelected}
                   >
                     <TableCell padding='checkbox'>
-                      <Checkbox checked={isItemSelected} inputProps={{ 'aria-labelledby': labelId }} />
+                      <Checkbox
+                        checked={isItemSelected}
+                        inputProps={{ 'aria-labelledby': labelId }}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          handleClick(event, row.id)
+                        }}
+                      />
                     </TableCell>
                     {Object.keys(row).map((key, i) => {
                       if (key !== 'id') {
                         return (
-                          <TableCell
-                            id={labelId}
-                            scope='row'
-                            padding='none'
-                          >
+                          <TableCell id={labelId} scope='row' padding='none'>
                             {row[key]}
                           </TableCell>
                         );

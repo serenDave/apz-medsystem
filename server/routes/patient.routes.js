@@ -7,6 +7,8 @@ router.route('/')
   .get(PatientController.getAllPatients)
   .post(PatientController.createPatient);
 
+router.post('/delete-many', PatientController.deletePatients);
+
 router
   .route('/:id')
   .get(PatientController.getSinglePatient)

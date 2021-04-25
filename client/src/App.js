@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
-import { Dashboard, Login, Patients, Requests, Doctors, Users } from './containers';
+import { Dashboard, Login, Patients, PatientInfo, Requests, Doctors, Users } from './containers';
 import { Header } from './components';
 import { CssBaseline, makeStyles } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
@@ -53,6 +53,7 @@ const App = () => {
       <>
         <Route exact path='/dashboard' component={Dashboard} />
         <Route exact path='/patients' component={Patients} />
+        <Route exact path='/patientinfo/:id' component={PatientInfo} />
         <Route exact path='/requests' component={Requests} />
         <Route exact path='/doctors' component={Doctors} />
         <Route exact path='/users' component={Users} />

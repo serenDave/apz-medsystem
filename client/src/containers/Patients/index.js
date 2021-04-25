@@ -37,10 +37,11 @@ const a11yProps = (index) => ({
   'aria-controls': `nav-tabpanel-${index}`
 });
 
-const Patients = () => {
+const Patients = ({ history }) => {
   const classes = useStyles();
   const [patientsData, setPatientsData] = useState([]);
   const [tabValue, setTabValue] = useState(0);
+  const [reload, setReload] = useState(1);
 
   useEffect(() => {
     api.get('/patients').then((result) => {
@@ -59,11 +60,19 @@ const Patients = () => {
         setPatientsData(data);
       }
     });
-  }, []);
+  }, [reload]);
 
   const handleTabChange = (_, newValue) => {
     setTabValue(newValue);
   };
+
+  const deletePatients = async (selected) => {
+    const result = await api.post('/patients/delete-many', { ids: selected });
+
+    if (result.status === 204) {
+      setReload(reload + 1);
+    }
+  }
 
   return (
     <Paper className={classes.root}>
@@ -86,6 +95,10 @@ const Patients = () => {
             { id: 'bloodpressure', label: 'Blood Pressure' }
           ]}
           rowsData={patientsData}
+          onRowClick={(row) => {
+            history.push(`/patientinfo/${row.id}`);
+          }}
+          onDelete={(selected) => deletePatients(selected)}
           initialOrderProp={'firstname'}
           rowsPerPage={10}
         />
