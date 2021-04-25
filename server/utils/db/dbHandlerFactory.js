@@ -44,9 +44,24 @@ exports.getOne = (Model, populateOptions) => {
   });
 };
 
-exports.createOne = (Model) => {
+exports.createOne = (Model, populateOptions) => {
   return catchError(async (req, res, next) => {
-    const doc = await Model.create(req.body);
+    let doc = await Model.create(req.body);
+    let newlyCreatedDoc = false;
+
+    if (populateOptions) {
+      let query = Model.findById(doc._id);
+
+      for (const option of populateOptions) {
+        query = query.populate(option);
+      }
+
+      newlyCreatedDoc = await query;
+    }
+
+    if (newlyCreatedDoc) {
+      doc = newlyCreatedDoc;
+    }
 
     res.status(201).json({
       status: 'success',

@@ -3,6 +3,6 @@ const Patient = require('../models/Patient');
 
 exports.getAllPatients = dbMethods.getAll(Patient, ['wardId', 'iotDeviceId', 'deliveryReason']);
 exports.getSinglePatient = dbMethods.getOne(Patient);
-exports.createPatient = dbMethods.createOne(Patient);
+exports.createPatient = dbMethods.createOne(Patient, ['deliveryReason']);
 exports.updatePatient = dbMethods.updateOne(Patient);
 exports.deletePatient = dbMethods.deleteOne(Patient);

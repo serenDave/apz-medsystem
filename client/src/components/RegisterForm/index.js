@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, TextField, Typography, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { EntrancePDF } from '../../components';
 import { api } from '../../config';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,6 +19,11 @@ const useStyles = makeStyles((theme) => ({
   submitButton: {
     padding: 10,
     marginTop: 20
+  },
+  registerSuccess: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   }
 }));
 
@@ -27,7 +34,7 @@ const RegisterForm = () => {
   const [wards, setWards] = useState([]);
   const [deliveryReasons, setDeliveryReasons] = useState([]);
 
-  const [userRegistered, setUserRegistered] = useState(false);
+  const [patientRegistered, setPatientRegistered] = useState(null);
 
   const { fullName, dateOfBirth, mobileNumber, deliveryReason, wardId } = watch();
 
@@ -71,90 +78,110 @@ const RegisterForm = () => {
     });
 
     if (result.data.status === 'success') {
-      setUserRegistered(true);
+      setPatientRegistered(result.data.data.doc);
     }
   };
 
   return (
     <div className={classes.root}>
-      {!userRegistered ? (
+      {!patientRegistered ? (
         <>
-        <Box mb={'18px'}>
-          <Typography variant={'h5'} align={'center'}>
-            Register a new patient
-          </Typography>
-        </Box>
-        <div className={classes.form}>
-          <TextField
-            label={'Full name'}
-            value={fullName}
-            onChange={(e) => setValue('fullName', e.target.value)}
-            variant={'outlined'}
-            margin={'normal'}
-          />
-          <TextField
-            value={dateOfBirth}
-            onChange={(e) => setValue('dateOfBirth', e.target.value)}
-            variant={'outlined'}
-            margin={'normal'}
-            type={'date'}
-          />
-          <TextField
-            label={'Mobile number'}
-            value={mobileNumber}
-            onChange={(e) => setValue('mobileNumber', e.target.value)}
-            variant={'outlined'}
-            margin={'normal'}
-            type={'number'}
-          />
-          <TextField
-            select
-            label={'Delivery Reason'}
-            value={deliveryReason}
-            onChange={(e) => setValue('deliveryReason', e.target.value)}
-            variant={'outlined'}
-            margin={'normal'}
-          >
-            {deliveryReasons.length > 1 &&
-              deliveryReasons.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-          </TextField>
-          <TextField
-            select
-            label={'Select ward number'}
-            value={wardId}
-            onChange={(e) => {
-              setValue('wardId', e.target.value);
-            }}
-            variant={'outlined'}
-            margin={'normal'}
-          >
-            {wards.length > 1 &&
-              wards.map((ward) => (
-                <MenuItem key={ward.value} value={ward.value}>
-                  {ward.label}
-                </MenuItem>
-              ))}
-          </TextField>
-          <Button
-            className={classes.submitButton}
-            variant={'contained'}
-            color={'primary'}
-            onClick={handleSubmit(registerPatient)}
-          >
-            Register
-          </Button>
-        </div>
+          <Box mb={'18px'}>
+            <Typography variant={'h5'} align={'center'}>
+              Register a new patient
+            </Typography>
+          </Box>
+          <div className={classes.form}>
+            <TextField
+              label={'Full name'}
+              value={fullName}
+              onChange={(e) => setValue('fullName', e.target.value)}
+              variant={'outlined'}
+              margin={'normal'}
+            />
+            <TextField
+              value={dateOfBirth}
+              onChange={(e) => setValue('dateOfBirth', e.target.value)}
+              variant={'outlined'}
+              margin={'normal'}
+              type={'date'}
+            />
+            <TextField
+              label={'Mobile number'}
+              value={mobileNumber}
+              onChange={(e) => setValue('mobileNumber', e.target.value)}
+              variant={'outlined'}
+              margin={'normal'}
+              type={'number'}
+            />
+            <TextField
+              select
+              label={'Delivery Reason'}
+              value={deliveryReason}
+              onChange={(e) => setValue('deliveryReason', e.target.value)}
+              variant={'outlined'}
+              margin={'normal'}
+            >
+              {deliveryReasons.length > 1 &&
+                deliveryReasons.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+            </TextField>
+            <TextField
+              select
+              label={'Select ward number'}
+              value={wardId}
+              onChange={(e) => {
+                setValue('wardId', e.target.value);
+              }}
+              variant={'outlined'}
+              margin={'normal'}
+            >
+              {wards.length > 1 &&
+                wards.map((ward) => (
+                  <MenuItem key={ward.value} value={ward.value}>
+                    {ward.label}
+                  </MenuItem>
+                ))}
+            </TextField>
+            <Button
+              className={classes.submitButton}
+              variant={'contained'}
+              color={'primary'}
+              onClick={handleSubmit(registerPatient)}
+            >
+              Register
+            </Button>
+          </div>
         </>
       ) : (
-        <>
-          <Typography variant={'h5'} align={'center'}>
-            User has been successfully registered!
-          </Typography>
-        </>
+        <div className={classes.registerSuccess}>
+          <Box mb={'12px'}>
+            <Typography variant={'h5'} align={'center'}>
+              User has been successfully registered!
+            </Typography>
+          </Box>
+          <PDFDownloadLink
+            document={<EntrancePDF patientData={patientRegistered} />}
+            fileName={'patientEntrance.pdf'}
+            style={{
+              maxWidth: 400,
+              textDecoration: 'none',
+              padding: '16px',
+              color: '#4a4a4a',
+              backgroundColor: '#f2f2f2',
+              border: '1px solid #4a4a4a',
+              marginBottom: 12
+            }}
+          >
+            {({ loading }) => loading ? 'Loading document...' : 'Download PDF'}
+          </PDFDownloadLink>
+          <Button variant={'contained'} onClick={() => setPatientRegistered(null)} color={'primary'}>
+            Register a new patient
+          </Button>
+        </div>
       )}
     </div>
   );
