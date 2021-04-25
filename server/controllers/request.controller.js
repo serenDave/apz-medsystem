@@ -11,7 +11,7 @@ const {
 const dbMethods = require('../utils/db/dbHandlerFactory');
 const catchError = require('../utils/errors/catchErrorAsync');
 
-exports.getAllRequests = dbMethods.getAll(Request);
+exports.getAllRequests = dbMethods.getAll(Request, ['patientId']);
 exports.getSingleRequest = dbMethods.getOne(Request);
 exports.createRequest = dbMethods.createOne(Request);
 exports.updateRequest = dbMethods.updateOne(Request);

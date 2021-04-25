@@ -1,9 +1,17 @@
 const catchError = require('../errors/catchErrorAsync');
 const AppError = require('../errors/appError');
 
-exports.getAll = (Model) => {
+exports.getAll = (Model, populateOptions) => {
   return catchError(async (req, res, next) => {
-    const docs = await Model.find();
+    let query = Model.find();
+
+    if (populateOptions) {
+      for (const option of populateOptions) {
+        query = query.populate(option);
+      }
+    }
+
+    const docs = await query;
 
     res.status(200).json({
       status: 'success',
@@ -18,7 +26,9 @@ exports.getOne = (Model, populateOptions) => {
     let query = Model.findById(req.params.id);
 
     if (populateOptions) {
-      query = query.populate(populateOptions);
+      for (const option of populateOptions) {
+        query = query.populate(option);
+      }
     }
 
     const doc = await query;

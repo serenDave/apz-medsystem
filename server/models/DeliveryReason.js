@@ -4,6 +4,10 @@ const deliveryReasonSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
+  },
+  nameReadable: {
+    type: String,
+    required: true
   }
 });
 

@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 // Initialize cron
-const cron = require('../crons/main');
+require('../crons/main');
 
 // Error handler
 const errorHandler = require('../utils/errors/errorController');
