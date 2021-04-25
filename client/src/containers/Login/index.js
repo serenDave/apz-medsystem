@@ -35,9 +35,10 @@ const Login = ({ history }) => {
     if (result.data.status === 'success') {
       localStorage.setItem('token', result.data.token);
       localStorage.setItem('user', JSON.stringify(result.data.data.user));
-      dispatch(actions.user.setUser(result.data.user));
+      dispatch(actions.user.setUser(result.data.data.user));
+      dispatch(actions.user.setToken(result.data.token));
 
-      history.push('/home');
+      history.push('/dashboard');
     }
   };
 

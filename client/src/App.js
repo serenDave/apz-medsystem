@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
-import { Home, Login, Patients, Requests, Doctors, Users } from './containers';
+import { Dashboard, Login, Patients, Requests, Doctors, Users } from './containers';
 import { Header } from './components';
 import { CssBaseline, makeStyles } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
@@ -29,6 +29,7 @@ const App = () => {
       try {
         const user = JSON.parse(localStorage.getItem('user'));
         dispatch(actions.user.setUser(user));
+        dispatch(actions.user.setToken(token));
         isAuthed = true;
       } catch (e) {
         history.push('/login');
@@ -50,7 +51,7 @@ const App = () => {
   if (isAuthed) {
     routes = (
       <>
-        <Route exact path='/dashboard' component={Home} />
+        <Route exact path='/dashboard' component={Dashboard} />
         <Route exact path='/patients' component={Patients} />
         <Route exact path='/requests' component={Requests} />
         <Route exact path='/doctors' component={Doctors} />
