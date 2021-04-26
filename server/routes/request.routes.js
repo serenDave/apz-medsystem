@@ -17,4 +17,6 @@ router.post('/new', RequestController.processNewRequest);
 router.post('/doctor-response', RequestController.processDoctorResponse);
 router.post('/doctor-finished', RequestController.processDoctorFinished);
 
+router.post('/delete-many', RequestController.deleteRequests);
+
 module.exports = router;

@@ -98,7 +98,7 @@ const Patients = ({ history }) => {
           onRowClick={(row) => {
             history.push(`/patientinfo/${row.id}`);
           }}
-          onDelete={(selected) => deletePatients(selected)}
+          onDelete={deletePatients}
           initialOrderProp={'firstname'}
           rowsPerPage={10}
         />

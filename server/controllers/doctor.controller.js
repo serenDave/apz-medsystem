@@ -6,3 +6,4 @@ exports.getSingleDoctor = dbMethods.getOne(Doctor);
 exports.createDoctor = dbMethods.createOne(Doctor);
 exports.updateDoctor = dbMethods.updateOne(Doctor);
 exports.deleteDoctor = dbMethods.deleteOne(Doctor);
+exports.deleteDoctors = dbMethods.deleteMany(Doctor);

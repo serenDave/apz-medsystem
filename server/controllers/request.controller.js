@@ -16,6 +16,7 @@ exports.getSingleRequest = dbMethods.getOne(Request);
 exports.createRequest = dbMethods.createOne(Request);
 exports.updateRequest = dbMethods.updateOne(Request);
 exports.deleteRequest = dbMethods.deleteOne(Request);
+exports.deleteRequests = dbMethods.deleteMany(Request);
 
 exports.processNewRequest = catchError(async (req, res, next) => {
   const { message, priority, deviceId, patientsData, roomData } = req.body;

@@ -14,6 +14,7 @@ const useStyles = makeStyles({
 const Requests = () => {
   const classes = useStyles();
   const [requestData, setRequestData] = useState([]);
+  const [reload, setReload] = useState(1);
 
   useEffect(() => {
     api.get('/requests').then((result) => {
@@ -29,7 +30,15 @@ const Requests = () => {
         setRequestData(data);
       }
     });
-  }, []);
+  }, [reload]);
+
+  const deleteRequests = async (selected) => {
+    const result = await api.post('/requests/delete-many', { ids: selected });
+
+    if (result.status === 204) {
+      setReload(reload + 1);
+    }
+  };
 
   return (
     <>
@@ -51,6 +60,7 @@ const Requests = () => {
           rowsData={requestData}
           initialOrderProp={'patient'}
           rowsPerPage={10}
+          onDelete={deleteRequests}
         />
       </Paper>
     </>

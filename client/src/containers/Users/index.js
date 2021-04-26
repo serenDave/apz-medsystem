@@ -14,6 +14,7 @@ const useStyles = makeStyles({
 const Users = () => {
   const classes = useStyles();
   const [usersData, setUsersData] = useState([]);
+  const [reload, setReload] = useState(1);
 
   useEffect(() => {
     api.get('/users').then((result) => {
@@ -28,7 +29,15 @@ const Users = () => {
         setUsersData(data);
       }
     });
-  }, []);
+  }, [reload]);
+
+  const deleteUsers = async (selected) => {
+    const result = await api.post('/users/delete-many', { ids: selected });
+
+    if (result.status === 204) {
+      setReload(reload + 1);
+    }
+  };
 
   return (
     <>
@@ -38,11 +47,12 @@ const Users = () => {
           headCells={[
             { id: 'name', label: 'First Name' },
             { id: 'lastname', label: 'Last Name' },
-            { id: 'role',  label: 'Role' },
+            { id: 'role', label: 'Role' }
           ]}
           rowsData={usersData}
           initialOrderProp={'name'}
           rowsPerPage={10}
+          onDelete={deleteUsers}
         />
       </Paper>
     </>

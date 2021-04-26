@@ -6,3 +6,4 @@ exports.getSingleUser = dbMethods.getOne(User);
 exports.createUser = dbMethods.createOne(User);
 exports.updateUser = dbMethods.updateOne(User);
 exports.deleteUser = dbMethods.deleteOne(User);
+exports.deleteUsers = dbMethods.deleteMany(User);

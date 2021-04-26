@@ -15,4 +15,6 @@ router
   .patch(PatientController.updatePatient)
   .delete(PatientController.deletePatient);
 
+router.patch('/ignore/:id', PatientController.setIgnorePatient);
+
 module.exports = router;

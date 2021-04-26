@@ -14,6 +14,7 @@ const useStyles = makeStyles({
 const Doctors = () => {
   const classes = useStyles();
   const [doctorsData, setDoctorsData] = useState([]);
+  const [reload, setReload] = useState(1);
 
   useEffect(() => {
     api.get('/doctors').then((result) => {
@@ -29,7 +30,15 @@ const Doctors = () => {
         setDoctorsData(data);
       }
     });
-  }, []);
+  }, [reload]);
+
+  const deleteDoctors = async (selected) => {
+    const result = await api.post('/doctors/delete-many', { ids: selected });
+
+    if (result.status === 204) {
+      setReload(reload + 1);
+    }
+  };
 
   return (
     <>
@@ -45,6 +54,7 @@ const Doctors = () => {
           rowsData={doctorsData}
           initialOrderProp={'firstname'}
           rowsPerPage={10}
+          onDelete={deleteDoctors}
         />
       </Paper>
     </>

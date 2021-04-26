@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, TextField, Typography, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import { EntrancePDF } from '../../components';
 import { api } from '../../config';
 
 const useStyles = makeStyles((theme) => ({
@@ -163,21 +161,6 @@ const RegisterForm = () => {
               User has been successfully registered!
             </Typography>
           </Box>
-          <PDFDownloadLink
-            document={<EntrancePDF patientData={patientRegistered} />}
-            fileName={'patientEntrance.pdf'}
-            style={{
-              maxWidth: 400,
-              textDecoration: 'none',
-              padding: '16px',
-              color: '#4a4a4a',
-              backgroundColor: '#f2f2f2',
-              border: '1px solid #4a4a4a',
-              marginBottom: 12
-            }}
-          >
-            {({ loading }) => loading ? 'Loading document...' : 'Download PDF'}
-          </PDFDownloadLink>
           <Button variant={'contained'} onClick={() => setPatientRegistered(null)} color={'primary'}>
             Register a new patient
           </Button>
