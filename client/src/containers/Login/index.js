@@ -38,7 +38,7 @@ const Login = ({ history }) => {
       dispatch(actions.user.setUser(result.data.data.user));
       dispatch(actions.user.setToken(result.data.token));
 
-      history.push('/dashboard');
+      history.push('/patients');
     }
   };
 

@@ -28,11 +28,12 @@ const HeaderLink = styled(Link)({
 
 const Header = () => {
   const classes = useStyles();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const history = useHistory();
 
   const dispatch = useDispatch();
   const isAuthed = useSelector((state) => Boolean(state.user.token));
+  const user = useSelector((state) => state.user.user);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -43,6 +44,14 @@ const Header = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const [language, setLanguage] = React.useState('en');
+
+  const changeLanguage = () => {
+    const nextLanguage = language === 'en' ? 'ua' : 'en';
+    setLanguage(nextLanguage); 
+    i18n.changeLanguage(nextLanguage);
   };
 
   const logout = () => {
@@ -63,9 +72,6 @@ const Header = () => {
         </Typography>
         {isAuthed ? (
           <>
-            <HeaderLink to={'/dashboard'}>
-              <Button color={'inherit'}>{t('header.dashboard')}</Button>
-            </HeaderLink>
             <HeaderLink to={'/patients'}>
               <Button color={'inherit'}>{t('header.patients')}</Button>
             </HeaderLink>
@@ -74,9 +80,6 @@ const Header = () => {
             </HeaderLink>
             <HeaderLink to={'/doctors'}>
               <Button color={'inherit'}>{t('header.doctors')}</Button>
-            </HeaderLink>
-            <HeaderLink to={'/users'}>
-              <Button color={'inherit'}>{t('header.users')}</Button>
             </HeaderLink>
             <IconButton
               aria-label={'account of current user'}
@@ -102,8 +105,18 @@ const Header = () => {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>My profile</MenuItem>
-              <MenuItem onClick={logout}>Log out</MenuItem>
+              {user.role === 'admin' && (
+                <MenuItem onClick={handleClose}>
+                  <Link to='/administration'>{t('header.administration')}</Link>
+                </MenuItem>
+              )}
+              <MenuItem onClick={handleClose}>
+                <Link to='/profile'>{t('header.myprofile')}</Link>
+              </MenuItem>
+              <MenuItem onClick={() => changeLanguage()}>
+                {t('header.changelanguage')}
+              </MenuItem>
+              <MenuItem onClick={logout}>{t('header.logout')}</MenuItem>
             </Menu>
           </>
         ) : (

@@ -3,6 +3,7 @@ import { Box, Button, TextField, Typography, MenuItem } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
 import { api } from '../../config';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RegisterForm = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const { register, watch, setValue, handleSubmit } = useForm();
 
@@ -86,12 +88,12 @@ const RegisterForm = () => {
         <>
           <Box mb={'18px'}>
             <Typography variant={'h5'} align={'center'}>
-              Register a new patient
+              {t('patients.register.title')}
             </Typography>
           </Box>
           <div className={classes.form}>
             <TextField
-              label={'Full name'}
+              label={t('patients.register.fullname')}
               value={fullName}
               onChange={(e) => setValue('fullName', e.target.value)}
               variant={'outlined'}
@@ -105,7 +107,7 @@ const RegisterForm = () => {
               type={'date'}
             />
             <TextField
-              label={'Mobile number'}
+              label={t('patients.register.mobilenumber')}
               value={mobileNumber}
               onChange={(e) => setValue('mobileNumber', e.target.value)}
               variant={'outlined'}
@@ -114,7 +116,7 @@ const RegisterForm = () => {
             />
             <TextField
               select
-              label={'Delivery Reason'}
+              label={t('patients.deliveryreason')}
               value={deliveryReason}
               onChange={(e) => setValue('deliveryReason', e.target.value)}
               variant={'outlined'}
@@ -129,7 +131,7 @@ const RegisterForm = () => {
             </TextField>
             <TextField
               select
-              label={'Select ward number'}
+              label={t('patients.register.selectward')}
               value={wardId}
               onChange={(e) => {
                 setValue('wardId', e.target.value);
@@ -150,7 +152,7 @@ const RegisterForm = () => {
               color={'primary'}
               onClick={handleSubmit(registerPatient)}
             >
-              Register
+              {t('patients.register.button')}
             </Button>
           </div>
         </>
@@ -158,11 +160,11 @@ const RegisterForm = () => {
         <div className={classes.registerSuccess}>
           <Box mb={'12px'}>
             <Typography variant={'h5'} align={'center'}>
-              User has been successfully registered!
+              {t('patients.register.success')}
             </Typography>
           </Box>
           <Button variant={'contained'} onClick={() => setPatientRegistered(null)} color={'primary'}>
-            Register a new patient
+            {t('patients.register.newbutton')}
           </Button>
         </div>
       )}

@@ -2,11 +2,13 @@
   "translations": {
     "header": {
       "login": "Login",
-      "dashboard": "Dashboard",
       "patients": "Patients",
       "requests": "Requests",
       "doctors": "Doctors",
-      "users": "Users"
+      "administration": "Administration",
+      "myprofile": "My profile",
+      "changelanguage": "Change Language",
+      "logout": "Log out"
     },
     "login": {
       "title": "Enter your credentials below to access medsystem.",
@@ -15,6 +17,73 @@
       "password": "Password",
       "helperPassword": "Enter your password",
       "login": "Login"
+    },
+    "patients": {
+      "data": "Patients Data",
+      "create": "Register a new patient",
+      "title": "Patients",
+      "firstname": "First Name",
+      "lastname": "Last Name",
+      "deliveryreason": "Delivery Reason",
+      "ward": "Ward number",
+      "pulse": "Pulse",
+      "temperature": "Temperature",
+      "pressure": "Blood Pressure",
+      "register": {
+        "title": "Register a new patient",
+        "fullname": "Full Name",
+        "mobilenumber": "Mobile number",
+        "selectward": "Select ward number",
+        "button": "Register",
+        "success": "Patient has been successfully registered!",
+        "newbutton": "Register a new patient"
+      }
+    },
+    "patientinfo": {
+      "title": "Patient",
+      "dateofbirth": "Date of birth",
+      "mobilenumber": "Mobile number",
+      "deliveryreason":"Delivery Reason",
+      "diagnosis": "Diagnosis",
+      "nodiagnosis": "Not specified",
+      "wardnumber": "Ward number",
+      "pulse": "Pulse",
+      "temperature": "Temperature",
+      "pressure": "Blood Pressure",
+      "iot": {
+        "title": "IoT Data",
+        "aircondition": "Air condition",
+        "lighting": "Lighting",
+        "devicenumber": "Device Number",
+        "readdata": "Read data",
+        "downloaddoc": "Download document for entrance",
+        "ignoredata": "Dont read data from device",
+        "dontignoredata": "Read data from device"
+      }
+    },
+    "request": {
+      "title": "Requests",
+      "patient": "Patient",
+      "requesttype": "Request Type",
+      "priority": "Priority",
+      "status": "Status"
+    },
+    "doctors": {
+      "title": "Doctors",
+      "firstname": "First Name",
+      "lastname": "Last Name",
+      "speciality": "Speciality",
+      "status": "Status",
+      "occupied": "Occupied",
+      "free": "Free",
+      "Surgeon": "Surgeon",
+      "Nurse": "Nurse"
+    },
+    "profile": {
+      "title": "Profile info",
+      "username": "Username",
+      "email": "Email",
+      "role": "Role"
     }
   }
 }

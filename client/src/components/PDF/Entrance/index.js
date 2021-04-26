@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Page, View, Text, Document, StyleSheet, Font } from '@react-pdf/renderer';
+import { api } from '../../../config';
 
 Font.register({
   family: 'Roboto',
@@ -18,7 +19,7 @@ const pdfStyle = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     marginTop: 16,
-    marginBottom: 24
+    marginBottom: 40
   },
   title: {
     fontSize: 18,
@@ -28,7 +29,7 @@ const pdfStyle = StyleSheet.create({
   info: {
     display: 'flex',
     flexDirection: 'column',
-    marginBottom: 100
+    marginBottom: 30
   },
   infoContainer: {
     display: 'flex',
@@ -53,6 +54,18 @@ const pdfStyle = StyleSheet.create({
 });
 
 const EntrancePDF = ({ patientData }) => {
+  const [config, setConfig] = useState(null);
+
+  useEffect(() => {
+    api.get(`/config/${process.env.REACT_APP_CONFIG_ID}`) 
+      .then((result) => {
+        setConfig(result.data.data.doc);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      }) 
+  }, []);
+
   return (
     <Document>
       <Page style={pdfStyle.page}>
@@ -75,17 +88,13 @@ const EntrancePDF = ({ patientData }) => {
               <Text style={pdfStyle.infoData}> {patientData.deliveryReason.name}</Text>
             </View>
             <View style={pdfStyle.infoContainer}>
-              <Text style={pdfStyle.infoText}>Стать: </Text>
-              <Text style={pdfStyle.infoData}>Чоловіча</Text>
-            </View>
-            <View style={pdfStyle.infoContainer}>
               <Text style={pdfStyle.infoText}>Мобільний телефон:</Text>
               <Text style={pdfStyle.infoData}> {patientData.mobileNumber}</Text>
             </View>
           </View>
           <View style={pdfStyle.bottom}>
-            <Text style={pdfStyle.bottomText}>Керівник лікарні: Амосов С.Л.</Text>
-            <Text>{new Date().toLocaleDateString()}</Text>
+            <Text style={pdfStyle.bottomText}>Лікарня: {config && config.clinicName}</Text>
+            <Text style={pdfStyle.bottomText}>Керівник лікарні: {config && config.mainDoctorName}</Text>
           </View>
           <View></View>
         </View>

@@ -15,6 +15,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { useSelector } from 'react-redux';
+import { Box } from '@material-ui/core';
 
 const descendingComparator = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
@@ -53,7 +55,8 @@ const EnhancedTableHead = (props) => {
     numSelected,
     rowCount,
     onRequestSort,
-    headCells
+    headCells,
+    isAdmin
   } = props;
 
   const createSortHandler = (property) => (event) => {
@@ -64,12 +67,16 @@ const EnhancedTableHead = (props) => {
     <TableHead>
       <TableRow>
         <TableCell padding='checkbox'>
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all desserts' }}
-          />
+          {isAdmin ? (
+            <Checkbox
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={rowCount > 0 && numSelected === rowCount}
+              onChange={onSelectAllClick}
+              inputProps={{ 'aria-label': 'select all desserts' }}
+            />
+          ) : (
+            <Box py={'24px'}></Box>
+          )}
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
@@ -171,6 +178,8 @@ const EnhancedTable = ({
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
 
+  const isAdmin = useSelector((state) => state.user.user.role === 'admin');
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -227,6 +236,7 @@ const EnhancedTable = ({
           aria-label='enhanced table'
         >
           <EnhancedTableHead
+            isAdmin={isAdmin}
             classes={classes}
             headCells={headCells}
             numSelected={selected.length}
@@ -254,14 +264,18 @@ const EnhancedTable = ({
                     selected={isItemSelected}
                   >
                     <TableCell padding='checkbox'>
-                      <Checkbox
-                        checked={isItemSelected}
-                        inputProps={{ 'aria-labelledby': labelId }}
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          handleClick(event, row.id)
-                        }}
-                      />
+                      {isAdmin ? (
+                        <Checkbox
+                          checked={isItemSelected}
+                          inputProps={{ 'aria-labelledby': labelId }}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            handleClick(event, row.id);
+                          }}
+                        />
+                      ) : (
+                        <Box py={'24px'}></Box>
+                      )}
                     </TableCell>
                     {Object.keys(row).map((key, i) => {
                       if (key !== 'id') {

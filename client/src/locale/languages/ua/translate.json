@@ -1,7 +1,89 @@
 {
   "translations": {
     "header": {
-      "login": "login"
+      "login": "Увійти",
+      "patients": "Пацієнти",
+      "requests": "Запити",
+      "doctors": "Лікари",
+      "administration": "Адміністрування",
+      "myprofile": "Мій профіль",
+      "changelanguage": "Змінити мову",
+      "logout": "Вийти"
+    },
+    "login": {
+      "title": "Введіть ваші дані для входа у систему.",
+      "email": "Пошта",
+      "helperEmail": "Введіть вашу пошту",
+      "password": "Пароль",
+      "helperPassword": "Введіть пароль",
+      "login": "Вийти"
+    },
+    "patients": {
+      "data": "Дані пацієнтів",
+      "create": "Зареєструвати нового пацієнта",
+      "title": "Пацієнти",
+      "firstname": "Ім'я",
+      "lastname": "Прізвище",
+      "deliveryreason": "Причина надходження",
+      "ward": "Номер палати",
+      "pulse": "Пульс",
+      "temperature": "Температура",
+      "pressure": "Тиск",
+      "register": {
+        "title": "Зареєструвати нового пацієнта",
+        "fullname": "Повне ім'я",
+        "mobilenumber": "Мобільний телефон",
+        "selectward": "Виберіть номер палати",
+        "button": "Зареєструвати",
+        "success": "Пацієнт був успішно зареєстрований!",
+        "newbutton": "Зареєструвати нового пацієнта"
+      }
+    },
+    "patientinfo": {
+      "title": "Пацієнт",
+      "dateofbirth": "Дата народження",
+      "mobilenumber": "Мобільний телефон",
+      "deliveryreason": "Причина надходження",
+      "diagnosis": "Діагноз",
+      "nodiagnosis": "Не вказаний",
+      "wardnumber": "Номер палатм",
+      "pulse": "Пульс",
+      "temperature": "Температура",
+      "pressure": "Blood Pressure",
+      "iot": {
+        "title": "IoT Data",
+        "aircondition": "Air condition",
+        "lighting": "Lighting",
+        "devicenumber": "Device Number",
+        "readdata": "Read data",
+        "downloaddoc": "Download document for entrance",
+        "ignoredata": "Dont read data from device",
+        "dontignoredata": "Read data from device"
+      }
+    },
+    "request": {
+      "title": "Запити",
+      "patient": "Пацієнт",
+      "requesttype": "Тип запиту",
+      "priority": "Пріорітет",
+      "status": "Статус"
+    },
+    "doctors": {
+      "title": "Лікари",
+      "firstname": "Ім'я",
+      "lastname": "Прізвище",
+      "speciality": "Спеціальність",
+      "status": "Статус",
+      "occupied": "Occupied",
+      "free": "Free",
+      "Surgeon": "Surgeon",
+      "Nurse": "Nurse"
+    },
+    "profile": {
+      "title": "Профіль",
+      "username": "Ім'я користувача",
+      "email": "Пошта",
+      "role": "Роль"
     }
   }
 }

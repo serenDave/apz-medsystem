@@ -23,6 +23,8 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^6.2.1",
+    "mongodb-backup": "^1.6.9",
+    "mongodb-backup-4x": "^3.2.1",
     "mongoose": "^5.7.1",
     "morgan": "^1.9.1",
     "node-cron": "^3.0.0",

@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
-import { Dashboard, Login, Patients, PatientInfo, Requests, Doctors, Users } from './containers';
+import {
+  Login,
+  Patients,
+  PatientInfo,
+  Requests,
+  Doctors,
+  Administration,
+  Profile
+} from './containers';
 import { Header } from './components';
 import { CssBaseline, makeStyles } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
@@ -51,14 +59,13 @@ const App = () => {
   if (isAuthed) {
     routes = (
       <>
-        <Route exact path='/dashboard' component={Dashboard} />
         <Route exact path='/patients' component={Patients} />
         <Route exact path='/patientinfo/:id' component={PatientInfo} />
         <Route exact path='/requests' component={Requests} />
         <Route exact path='/doctors' component={Doctors} />
-        <Route exact path='/users' component={Users} />
+        <Route exact path='/profile' component={Profile} />
+        <Route exact path='/administration' component={Administration} />
         <Route exact path='/login' component={Login} />
-        <Redirect to='/dashboard' />
       </>
     );
   }

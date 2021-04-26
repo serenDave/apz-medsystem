@@ -8,4 +8,6 @@ router
   .get(ConfigController.getConfig)
   .patch(ConfigController.updateConfig);
 
+router.post('/make-backup', ConfigController.makeBackup);
+
 module.exports = router;

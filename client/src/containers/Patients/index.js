@@ -6,6 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Table, RegisterForm } from '../../components';
 import { api } from '../../config';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   root: {
@@ -38,6 +39,7 @@ const a11yProps = (index) => ({
 });
 
 const Patients = ({ history }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [patientsData, setPatientsData] = useState([]);
   const [tabValue, setTabValue] = useState(0);
@@ -72,27 +74,27 @@ const Patients = ({ history }) => {
     if (result.status === 204) {
       setReload(reload + 1);
     }
-  }
+  };
 
   return (
     <Paper className={classes.root}>
       <AppBar position={'static'}>
         <Tabs value={tabValue} onChange={handleTabChange} aria-label={'patient tabs'}>
-          <Tab label={'Patients Data'} {...a11yProps(0)} />
-          <Tab label={'Register a new patient'} {...a11yProps(1)} />
+          <Tab label={t('patients.data')} {...a11yProps(0)} />
+          <Tab label={t('patients.create')} {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <TabPanel value={tabValue} index={0}>
         <Table
-          header={'Patients'}
+          header={t('patients.title')}
           headCells={[
-            { id: 'firstname', label: 'First Name' },
-            { id: 'lastname', label: 'Last Name' },
-            { id: 'deliveryreason', label: 'Delivery Reason' },
-            { id: 'ward', label: 'Ward number' },
-            { id: 'pulse', label: 'Pulse' },
-            { id: 'temperature', label: 'Temperature' },
-            { id: 'bloodpressure', label: 'Blood Pressure' }
+            { id: 'firstname', label: t('patients.firstname') },
+            { id: 'lastname', label: t('patients.lastname') },
+            { id: 'deliveryreason', label: t('patients.deliveryreason') },
+            { id: 'ward', label: t('patients.ward') },
+            { id: 'pulse', label: t('patients.pulse') },
+            { id: 'temperature', label: t('patients.temperature') },
+            { id: 'bloodpressure', label: t('patients.pressure') }
           ]}
           rowsData={patientsData}
           onRowClick={(row) => {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles, Paper } from '@material-ui/core';
 import { Table } from '../../components';
 import { api } from '../../config';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   root: {
@@ -12,6 +13,7 @@ const useStyles = makeStyles({
 });
 
 const Doctors = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [doctorsData, setDoctorsData] = useState([]);
   const [reload, setReload] = useState(1);
@@ -44,12 +46,12 @@ const Doctors = () => {
     <>
       <Paper className={classes.root}>
         <Table
-          header={'Doctors'}
+          header={t('doctors.title')}
           headCells={[
-            { id: 'firstname', label: 'First Name' },
-            { id: 'lastname', label: 'Last Name' },
-            { id: 'speciality', label: 'Speciality' },
-            { id: 'status', label: 'Status' }
+            { id: 'firstname', label: t('doctors.firstname') },
+            { id: 'lastname', label: t('doctors.lastname') },
+            { id: 'speciality', label: t('doctors.speciality') },
+            { id: 'status', label: t('doctors.status') }
           ]}
           rowsData={doctorsData}
           initialOrderProp={'firstname'}

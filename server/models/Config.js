@@ -10,7 +10,9 @@ const configSchema = new mongoose.Schema({
     type: Number,
     required: true,
     default: 2
-  }
+  },
+  clinicName: String,
+  mainDoctorName: String,
 });
 
 const Config = mongoose.model('Config', configSchema);
