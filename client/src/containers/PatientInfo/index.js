@@ -164,7 +164,7 @@ const PatientInfo = ({ match }) => {
           </Box>
         )}
         <Box mr={'20px'}>
-          {patient && patient.iotDeviceId.ignored ? (
+          {patient && patient.iotDeviceId ? patient.iotDeviceId.ignored ? (
             <Button variant={'outlined'} color={'primary'} onClick={() => setIgnorePatient(false)}>
               Зчитувати дані пацієнта з IoT пристрою
             </Button>
@@ -172,7 +172,7 @@ const PatientInfo = ({ match }) => {
             <Button variant={'outlined'} color={'secondary'} onClick={() => setIgnorePatient(true)}>
               Не зчитувати дані пацієнта з IoT пристрою
             </Button>
-          )}
+          ) : null}
         </Box>
       </Box>
     </Paper>

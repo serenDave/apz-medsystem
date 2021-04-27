@@ -57,13 +57,14 @@ const EntrancePDF = ({ patientData }) => {
   const [config, setConfig] = useState(null);
 
   useEffect(() => {
-    api.get(`/config/${process.env.REACT_APP_CONFIG_ID}`) 
+    api
+      .get(`/config/${process.env.REACT_APP_CONFIG_ID}`)
       .then((result) => {
         setConfig(result.data.data.doc);
       })
       .catch((err) => {
         console.log(err.message);
-      }) 
+      });
   }, []);
 
   return (
@@ -81,7 +82,11 @@ const EntrancePDF = ({ patientData }) => {
             </View>
             <View style={pdfStyle.infoContainer}>
               <Text style={pdfStyle.infoText}>Дата народження:</Text>
-              <Text style={pdfStyle.infoData}> {new Date(patientData.dateOfBirth).toLocaleDateString()}</Text>
+              <Text style={pdfStyle.infoData}>
+                {patientData.dateOfBirth
+                  ? new Date(patientData.dateOfBirth).toLocaleDateString()
+                  : 'не вказана'}
+              </Text>
             </View>
             <View style={pdfStyle.infoContainer}>
               <Text style={pdfStyle.infoText}>Причина надходження:</Text>
@@ -89,7 +94,9 @@ const EntrancePDF = ({ patientData }) => {
             </View>
             <View style={pdfStyle.infoContainer}>
               <Text style={pdfStyle.infoText}>Мобільний телефон:</Text>
-              <Text style={pdfStyle.infoData}> {patientData.mobileNumber}</Text>
+              <Text style={pdfStyle.infoData}>
+                {patientData.mobileNumber ? patientData.mobileNumber : 'Не вказаний'}
+              </Text>
             </View>
           </View>
           <View style={pdfStyle.bottom}>

@@ -23,7 +23,7 @@ const Requests = () => {
       if (result.data.status === 'success') {
         const data = result.data.data.docs.map((request) => ({
           id: request._id,
-          patinet: request.patinetId.fullName,
+          patient: request.patientId.fullName,
           requesttype: request.requestType,
           priority: request.priority,
           status: request.status,

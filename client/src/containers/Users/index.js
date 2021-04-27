@@ -33,8 +33,8 @@ const Users = () => {
     <Table
       header={'Users'}
       headCells={[
-        { id: 'name', label: 'First Name' },
-        { id: 'lastname', label: 'Last Name' },
+        { id: 'name', label: 'Name' },
+        { id: 'email', label: 'Email' },
         { id: 'role', label: 'Role' }
       ]}
       rowsData={usersData}
