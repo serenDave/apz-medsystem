@@ -54,3 +54,7 @@ yarn-error.log*
 
 # User-specific stuff
 .idea/*
+
+server/firebase-key.json
+
+*.tar.gz
