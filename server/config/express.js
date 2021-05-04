@@ -10,7 +10,10 @@ require('../crons/main');
 // Error handler
 const errorHandler = require('../utils/errors/errorController');
 
+// Index router
 const indexRouter = require('../routes/index.routes');
+
+const getAccessToken = require('./firebaseMessaging');
 
 module.exports.init = () => {
     // DB connection
@@ -38,6 +41,11 @@ module.exports.init = () => {
     app.use('/api', indexRouter);
 
     app.use(errorHandler);
+
+    // getAccessToken()
+    //   .then((token) => {
+    //     console.log(token);
+    //   })
 
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files

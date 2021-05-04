@@ -34,7 +34,7 @@ exports.signUp = async (req, res, next) => {
 };
 
 exports.signIn = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, deviceIdToken } = req.body;
 
   if (!email || !password) {
     return next(new AppError('Please provide an email or password', 400));
@@ -44,6 +44,11 @@ exports.signIn = async (req, res, next) => {
 
   if (!user) {
     return next(new AppError('There is no user found with this email and password', 401));
+  }
+
+  if (deviceIdToken) {
+    user.deviceIdToken = deviceIdToken;
+    await user.save();
   }
 
   createAndSendToken(user, 200, req, res);
