@@ -1,10 +1,43 @@
+const axios = require('axios');
 const { forEach } = require('p-iteration');
 const Request = require('../models/Request');
 const Doctor = require('../models/Doctor');
 const Patient = require('../models/Patient');
+const User = require('../models/User');
+const getAccessToken = require('../config/firebaseMessaging');
 
-const sendNotification = (receiver, patient, message) => {
-  console.log(`Sending notification of patient: ${patient} to doctor: ${receiver} with message: ${message}`);
+const sendNotification = async (receiver, patient, message) => {
+  const accessToken = await getAccessToken();
+  const [userToSend] = await User.find({ doctorId: receiver.id });
+
+  if (accessToken && userToSend && userToSend.deviceIdToken) {
+    await patient.populate('deliveryReason').populate('wardId').execPopulate();
+
+    try {
+      const result = await axios.post('https://fcm.googleapis.com/v1/projects/apz-medsystem/messages:send', {
+        message: {
+          token: userToSend.deviceIdToken,
+          notification: {
+            title: `Request from ${patient.fullName}`,
+            body: message
+          },
+          data: {
+            patient: JSON.stringify(patient)
+          }
+        }
+      }, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+
+      if (result) {
+        console.log(`Request sent successfully: ${result}`);
+      }
+    } catch (e) {
+      console.log(`Error: ${e.message}`);
+    }
+  }
 };
 
 const setTimeoutResponse = (doctorId, requestData, notSendToDoctors = []) => {
@@ -56,7 +89,7 @@ exports.processRequest = async (patient, message, priority, request = false, not
         if (notSendToDoctors.includes(currentDoctor.id)) {
           continue;
         } else if (currentDoctor.status === 'free') {
-          sendNotification(currentDoctor.fullName, patient.fullName, message);
+          sendNotification(currentDoctor, patient, message);
           setTimeoutResponse(currentDoctor.id, { ...requestData, patient }, notSendToDoctors);
           notificationSent = true;
           break;
@@ -89,7 +122,7 @@ exports.processRequest = async (patient, message, priority, request = false, not
 
         for (let i = 0; i < nurses.length; i++) {
           const currentNurse = nurses[i];
-          sendNotification(currentNurse.fullName, patient.fullName, message);
+          await sendNotification(currentNurse, patient, message);
           setTimeoutResponse(currentNurse.id, { ...requestData, patient }, notSendToDoctors);
           break;
         }

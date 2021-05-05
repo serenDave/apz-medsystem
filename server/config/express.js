@@ -42,10 +42,10 @@ module.exports.init = () => {
 
     app.use(errorHandler);
 
-    // getAccessToken()
-    //   .then((token) => {
-    //     console.log(token);
-    //   })
+    getAccessToken()
+      .then((token) => {
+        console.log(token);
+      })
 
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files

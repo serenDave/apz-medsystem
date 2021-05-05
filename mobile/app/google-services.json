@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "539989590978",
+    "project_id": "apz-medsystem",
+    "storage_bucket": "apz-medsystem.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539989590978:android:bc8075000b60482b070c5b",
+        "android_client_info": {
+          "package_name": "com.example.apz_medsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539989590978-mjfor21vu6vnnanuakdo51dkol5fcgvb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh2GezC-Niwfef7Z-X39mQ1e7aTKxOfnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539989590978-mjfor21vu6vnnanuakdo51dkol5fcgvb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
