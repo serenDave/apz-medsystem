@@ -12,14 +12,17 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val repository: MainRepository,
 ): ViewModel() {
-    val patientsResponse: MutableLiveData<Resource<PatientsResponse>> = MutableLiveData()
+    val patientsResponse: MutableLiveData
+        <Resource<PatientsResponse>> = MutableLiveData()
 
     fun getPatients() = viewModelScope.launch {
         val response = repository.getPatients()
         patientsResponse.postValue(handlePatientsResponse(response))
     }
 
-    private fun handlePatientsResponse(response: PatientsResponse): Resource<PatientsResponse> {
+    private fun handlePatientsResponse(
+       response: PatientsResponse
+    ): Resource<PatientsResponse> {
         response.let {
             return Resource.Success(it)
         }
