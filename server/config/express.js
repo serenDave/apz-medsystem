@@ -43,9 +43,9 @@ module.exports.init = () => {
     app.use(errorHandler);
 
     getAccessToken()
-      .then((token) => {
-        console.log(token);
-      })
+      .then(() => {
+        console.log('Firebase token generated successfully');
+      });
 
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files
