@@ -5,6 +5,8 @@ const Doctor = require('../models/Doctor');
 const Patient = require('../models/Patient');
 const User = require('../models/User');
 const getAccessToken = require('../config/firebaseMessaging');
+const logger = require('../utils/log/logger');
+const constants = require('../constants');
 
 const sendNotification = async (receiver, patient, message) => {
   const accessToken = await getAccessToken();
@@ -14,28 +16,35 @@ const sendNotification = async (receiver, patient, message) => {
     await patient.populate('deliveryReason').populate('wardId').execPopulate();
 
     try {
-      const result = await axios.post('https://fcm.googleapis.com/v1/projects/apz-medsystem/messages:send', {
-        message: {
-          token: userToSend.deviceIdToken,
-          notification: {
-            title: `Request from ${patient.fullName}`,
-            body: message
+      const result = await axios.post(
+        process.env.FIREBASE_SEND_MESSAGE_API,
+        {
+          message: {
+            token: userToSend.deviceIdToken,
+            notification: {
+              title: `Request from ${patient.fullName}`,
+              body: message,
+            },
+            data: {
+              patient: JSON.stringify(patient),
+            },
           },
-          data: {
-            patient: JSON.stringify(patient)
-          }
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
+      );
 
       if (result) {
-        console.log(`Request sent successfully: ${result}`);
+        console.log(
+          `Request from: ${patient.fullName} sent to doctor: ${receiver.fullName}`
+        );
       }
     } catch (e) {
       console.log(`Error: ${e.message}`);
+      logger.error(e.message);
     }
   }
 };
@@ -43,27 +52,35 @@ const sendNotification = async (receiver, patient, message) => {
 const setTimeoutResponse = (doctorId, requestData, notSendToDoctors = []) => {
   setTimeout(
     (doctorId, requestData) => {
+      console.log('Doctor didn\'t respond, processing request again...');
+
       Doctor.findById(doctorId).then((doctor) => {
         if (!doctor.patients.includes(requestData.patient.id)) {
           exports.processRequest(
             requestData.patient,
             requestData.requestType,
             requestData.priority,
-            false,
+            requestData.requestId,
             notSendToDoctors.concat(doctorId)
           );
         }
       });
     },
-    1000 * 60,
+    constants.DOCTOR_RESPONSE_TIMEOUT,
     doctorId,
     requestData
   );
 };
 
-exports.processRequest = async (patient, message, priority, request = false, notSendToDoctors = []) => {
+exports.processRequest = async (
+  patient,
+  message,
+  priority,
+  requestId = false,
+  notSendToDoctors = []
+) => {
   const takingCareDoctors = await Doctor.find({
-    patients: { $in: [patient.id] }
+    patients: { $in: [patient.id] },
   });
 
   let shouldSaveRequest = false;
@@ -71,13 +88,13 @@ exports.processRequest = async (patient, message, priority, request = false, not
   if (!takingCareDoctors.length) {
     const freeDoctors = await Doctor.find({
       id: { $nin: notSendToDoctors },
-      status: 'free'
+      status: 'free',
     });
 
     const requestData = {
       patientId: patient.id,
       requestType: message,
-      priority
+      priority,
     };
 
     if (freeDoctors && freeDoctors.length) {
@@ -90,7 +107,11 @@ exports.processRequest = async (patient, message, priority, request = false, not
           continue;
         } else if (currentDoctor.status === 'free') {
           sendNotification(currentDoctor, patient, message);
-          setTimeoutResponse(currentDoctor.id, { ...requestData, patient }, notSendToDoctors);
+          setTimeoutResponse(
+            currentDoctor.id,
+            { ...requestData, requestId, patient },
+            notSendToDoctors
+          );
           notificationSent = true;
           break;
         }
@@ -102,28 +123,32 @@ exports.processRequest = async (patient, message, priority, request = false, not
     } else {
       shouldSaveRequest = true;
     }
-    
-    if (shouldSaveRequest) {
-      console.log(`Saving request for ${patient.fullName}`)
 
-      if (!request) {
+    if (shouldSaveRequest) {
+      if (!requestId) {
+        console.log(`Saving pending request for ${patient.fullName}`);
         await Request.create(requestData);
       } else {
-        await Request.findByIdAndUpdate(request.id, {
-          ...requestData
+        console.log(`Updating pending request for ${patient.fullName}`);
+        await Request.findByIdAndUpdate(requestId, {
+          ...requestData,
         });
       }
 
       if (['high', 'highest'].includes(priority)) {
         const nurses = await Doctor.find({
           id: { $nin: [notSendToDoctors] },
-          speciality: 'NURSE'
+          speciality: 'NURSE',
         });
 
         for (let i = 0; i < nurses.length; i++) {
           const currentNurse = nurses[i];
           await sendNotification(currentNurse, patient, message);
-          setTimeoutResponse(currentNurse.id, { ...requestData, patient }, notSendToDoctors);
+          setTimeoutResponse(
+            currentNurse.id,
+            { ...requestData, requestId, patient },
+            notSendToDoctors
+          );
           break;
         }
       }
@@ -144,7 +169,9 @@ exports.processDoctorTreating = async (doctorId, patientId) => {
 exports.processDoctorFinishedTreating = async (doctorId, patientId) => {
   const doctor = await Doctor.findById(doctorId);
 
-  doctor.patients = doctor.patients.filter((patient) => patient.toString() !== patientId);
+  doctor.patients = doctor.patients.filter(
+    (patient) => patient.toString() !== patientId
+  );
 
   if (doctor.patients.length === 0) {
     doctor.status = 'free';
@@ -156,12 +183,17 @@ exports.processDoctorFinishedTreating = async (doctorId, patientId) => {
 exports.processScheduledRequests = async (priorities) => {
   const scheduledRequests = await Request.find({
     status: 'opened',
-    priority: { $in: priorities }
+    priority: { $in: priorities },
   });
 
   await forEach(scheduledRequests, async (request) => {
     const patient = await Patient.findById(request.patientId);
 
-    await this.processRequest(patient, request.requestType, request.priority);
+    await this.processRequest(
+      patient,
+      request.requestType,
+      request.priority,
+      request.id
+    );
   });
 };
