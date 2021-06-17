@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { api } from '../../config';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { EntrancePDF } from '../../components';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   root: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles({
 const PatientInfo = ({ match }) => {
   const classes = useStyles();
   const [patient, setPatient] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     api.get(`/patients/${match.params.id}`).then((result) => {
@@ -39,54 +41,54 @@ const PatientInfo = ({ match }) => {
   return (
     <Paper className={classes.root}>
       <Box>
-        <Typography variant={'h5'}>Пацієнт: {patient && patient.fullName}</Typography>
+        <Typography variant={'h5'}>{t('patientinfo.title')}: {patient && patient.fullName}</Typography>
         <hr />
         <Box display={'flex'} alignItems={'center'} mb={'10px'}>
           <Box flex={1}>
             <Typography variant={'body1'} className={classes.boldText}>
-              Дата народження:
+              {t('patientinfo.dateofbirth')}:
             </Typography>
             <Typography variant={'body1'}>
               {patient && patient.dateOfBirth
                 ? new Date(patient.dateOfBirth).toLocaleDateString()
-                : 'Не вказана'}
+                : t('patientinfo.nodiagnosis')}
             </Typography>
           </Box>
           <Box flex={1}>
             <Typography variant={'body1'} className={classes.boldText}>
-              Мобільний телефон:
+              {t('patientinfo.mobilenumber')}:
             </Typography>
             <Typography variant={'body1'}>
-              {patient && patient.mobileNumber ? patient.mobileNumber : 'Не вказаний'}
+              {patient && patient.mobileNumber ? patient.mobileNumber : t('nodiagnosis')}
             </Typography>
           </Box>
         </Box>
         <Box display={'flex'} alignItems={'center'} mb={'10px'}>
           <Box flex={1}>
             <Typography variant={'body1'} className={classes.boldText}>
-              Причина надходження до лікарні:
+              {t('patientinfo.deliveryreason')}:
             </Typography>
             <Typography variant={'body1'}>{patient && patient.deliveryReason.name}</Typography>
           </Box>
           <Box flex={1}>
             <Typography variant={'body1'} className={classes.boldText}>
-              Діагноз:
+              {t('patientinfo.diagnosis')}:
             </Typography>
             <Typography variant={'body1'}>
-              {patient && patient.diagnosis ? patient.diagnosis : 'Не поставлений'}
+              {patient && patient.diagnosis ? patient.diagnosis : t('patientinfo.nodiagnosis')}
             </Typography>
           </Box>
         </Box>
         <Box display={'flex'} alignItems={'center'} mb={'10px'}>
           <Box flex={1}>
             <Typography variant={'body1'} className={classes.boldText}>
-              Номер палати:
+              {t('patientinfo.wardnumber')}:
             </Typography>
             <Typography variant={'body1'}>{patient && patient.wardId.number}</Typography>
           </Box>
           <Box flex={1}>
             <Typography variant={'body1'} className={classes.boldText}>
-              Пульс:
+              {t('patientinfo.pulse')}:
             </Typography>
             <Typography variant={'body1'}>{patient && patient.pulse} </Typography>
           </Box>
@@ -94,7 +96,7 @@ const PatientInfo = ({ match }) => {
         <Box display={'flex'} alignItems={'center'} mb={'10px'}>
           <Box flex={1}>
             <Typography variant={'body1'} className={classes.boldText}>
-              Тиск:
+              {t('patientinfo.pressure')}:
             </Typography>
             <Typography variant={'body1'}>
               {`${patient && patient.bloodPressure.systolic} / ${patient && patient.bloodPressure.diastolic}`}
@@ -102,25 +104,25 @@ const PatientInfo = ({ match }) => {
           </Box>
           <Box flex={1}>
             <Typography variant={'body1'} className={classes.boldText}>
-              Температура:
+              {t('patientinfo.temperature')}:
             </Typography>
             <Typography variant={'body1'}>{patient && patient.temperature}</Typography>
           </Box>
         </Box>
         {patient && patient.iotDeviceId && patient.iotDeviceId._id && (
           <Box mt={'40px'}>
-            <Typography variant={'h5'}>Дані з IoT пристрою:</Typography>
+            <Typography variant={'h5'}>{t('patientinfo.iot.title')}:</Typography>
             <hr />
             <Box display={'flex'} alignItems={'center'} mb={'10px'}>
               <Box flex={1}>
                 <Typography variant={'body1'} className={classes.boldText}>
-                  Якість повітря:
+                  {t('patientinfo.iot.aircondition')}:
                 </Typography>
                 <Typography variant={'body1'}>{patient.iotDeviceId.airCondition}</Typography>
               </Box>
               <Box flex={1}>
                 <Typography variant={'body1'} className={classes.boldText}>
-                  Освітлення:
+                  {t('patientinfo.iot.lighting')}:
                 </Typography>
                 <Typography variant={'body1'}>{patient.iotDeviceId.lighting}</Typography>
               </Box>
@@ -128,15 +130,15 @@ const PatientInfo = ({ match }) => {
             <Box display={'flex'}>
               <Box flex={1}>
                 <Typography variant={'body1'} className={classes.boldText}>
-                  Номер пристрою:
+                  {t('patientinfo.iot.devicenumber')}:
                 </Typography>
                 <Typography variant={'body1'}>{patient.iotDeviceId.number}</Typography>
               </Box>
               <Box flex={1}>
                 <Typography variant={'body1'} className={classes.boldText}>
-                  Зчитувати дані:
+                  {t('patientinfo.iot.readdata')}:
                 </Typography>
-                <Typography variant={'body1'}>{patient.iotDeviceId.ignored ? 'Ні' : 'Так'}</Typography>
+                <Typography variant={'body1'}>{patient.iotDeviceId.ignored ? t('patientinfo.iot.no') : t('patientinfo.iot.yes')}</Typography>
               </Box>
             </Box>
           </Box>
@@ -159,18 +161,18 @@ const PatientInfo = ({ match }) => {
                 borderRadius: 4
               }}
             >
-              {({ loading }) => (loading ? 'Loading document...' : 'Завантажити документ про надходження')}
+              {({ loading }) => (loading ? t('patientinfo.iot.docloading') : t('patientinfo.iot.downloaddoc'))}
             </PDFDownloadLink>
           </Box>
         )}
         <Box mr={'20px'}>
           {patient && patient.iotDeviceId ? patient.iotDeviceId.ignored ? (
             <Button variant={'outlined'} color={'primary'} onClick={() => setIgnorePatient(false)}>
-              Зчитувати дані пацієнта з IoT пристрою
+              {t('patientinfo.iot.dontignoredata')}
             </Button>
           ) : (
             <Button variant={'outlined'} color={'secondary'} onClick={() => setIgnorePatient(true)}>
-              Не зчитувати дані пацієнта з IoT пристрою
+              {t('patientinfo.iot.ignoredata')}
             </Button>
           ) : null}
         </Box>

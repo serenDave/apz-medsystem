@@ -7,6 +7,8 @@ router.route('/')
   .get(DoctorController.getAllDoctors)
   .post(DoctorController.createDoctor);
 
+router.post('/add-doctor', DoctorController.addDoctor);
+
 router
   .route('/:id')
   .get(DoctorController.getSingleDoctor)

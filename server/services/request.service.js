@@ -138,7 +138,7 @@ exports.processRequest = async (
       if (['high', 'highest'].includes(priority)) {
         const nurses = await Doctor.find({
           id: { $nin: [notSendToDoctors] },
-          speciality: 'NURSE',
+          speciality: 'nurse',
         });
 
         for (let i = 0; i < nurses.length; i++) {

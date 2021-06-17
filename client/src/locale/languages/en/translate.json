@@ -57,8 +57,11 @@
         "devicenumber": "Device Number",
         "readdata": "Read data",
         "downloaddoc": "Download document for entrance",
+        "docloading": "Loading",
         "ignoredata": "Dont read data from device",
-        "dontignoredata": "Read data from device"
+        "dontignoredata": "Read data from device",
+        "yes": "Yes",
+        "no": "No"
       }
     },
     "request": {
@@ -77,13 +80,52 @@
       "occupied": "Occupied",
       "free": "Free",
       "Surgeon": "Surgeon",
-      "Nurse": "Nurse"
+      "Nurse": "Nurse",
+      "addnew": "Add a new doctor",
+      "specialities": {
+        "surgeon": "Surgeon",
+        "nurse": "Nurse"
+      }
     },
     "profile": {
       "title": "Profile info",
       "username": "Username",
       "email": "Email",
       "role": "Role"
+    },
+    "admin": {
+      "title": "Administration",
+      "config": {
+        "title": "Clinic configuration",
+        "lowPriorityRequestFrequency": "Low priority request frequency",
+        "highPriorityRequestFrequency": "High priority request frequency",
+        "mins": "minutes",
+        "clinicname": "Clinic name",
+        "maindoctor": "Main doctor of clinic",
+        "savechanges": "Save changes",
+        "makebackup": "Make backup of the system"
+      },
+      "users": {
+        "title": "Users",
+        "name": "Name",
+        "email": "Email",
+        "role": "Role"
+      }
+    },
+    "form": {
+      "required": "Required",
+      "max20": "Must be 20 characters or less",
+      "email": "Invalid email address",
+      "min8": "Must be at least 8 characters"
+    },
+    "addDoctor": {
+      "title": "Add doctor",
+      "fullName": "Full Name",
+      "speciality": "Speciality",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Add doctor"
     }
   }
 }

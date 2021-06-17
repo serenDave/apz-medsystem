@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Table } from '../../components';
 import { api } from '../../config';
 
 const Users = () => {
   const [usersData, setUsersData] = useState([]);
   const [reload, setReload] = useState(1);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     api.get('/users').then((result) => {
@@ -33,9 +36,9 @@ const Users = () => {
     <Table
       header={'Users'}
       headCells={[
-        { id: 'name', label: 'Name' },
-        { id: 'email', label: 'Email' },
-        { id: 'role', label: 'Role' }
+        { id: 'name', label: t('admin.users.name') },
+        { id: 'email', label: t('admin.users.email') },
+        { id: 'role', label: t('admin.users.role') }
       ]}
       rowsData={usersData}
       initialOrderProp={'name'}

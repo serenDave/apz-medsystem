@@ -13,6 +13,7 @@ import { Header } from './components';
 import { CssBaseline, makeStyles } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { actions } from './redux/actions';
+import AddDoctor from './containers/AddDoctor';
 
 const useStyles = makeStyles({
   root: {
@@ -66,6 +67,8 @@ const App = () => {
         <Route exact path='/profile' component={Profile} />
         <Route exact path='/administration' component={Administration} />
         <Route exact path='/login' component={Login} />
+        <Route exact path='/add-doctor' component={AddDoctor} />
+        <Redirect from='/' to='/patients' />
       </>
     );
   }

@@ -1,3 +1,8 @@
 {"message":"Converting circular structure to JSON\n    --> starting at object with constructor 'ClientRequest'\n    |     property 'socket' -> object with constructor 'TLSSocket'\n    --- property '_httpMessage' closes the circle","level":"error","timestamp":"2021-06-13T14:07:00.694Z"}
 {"message":"Converting circular structure to JSON\n    --> starting at object with constructor 'ClientRequest'\n    |     property 'socket' -> object with constructor 'TLSSocket'\n    --- property '_httpMessage' closes the circle","level":"error","timestamp":"2021-06-13T14:18:01.337Z"}
 {"message":"Converting circular structure to JSON\n    --> starting at object with constructor 'ClientRequest'\n    |     property 'socket' -> object with constructor 'TLSSocket'\n    --- property '_httpMessage' closes the circle","level":"error","timestamp":"2021-06-13T14:19:00.486Z"}
+{"message":"User validation failed: name: Path `name` is required.","level":"error","timestamp":"2021-06-16T20:46:52.650Z"}
+{"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"testdoctor12@gmail.com\" }","level":"error","timestamp":"2021-06-17T11:00:35.834Z"}
+{"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"testdoctor12@gmail.com\" }","level":"error","timestamp":"2021-06-17T11:02:27.419Z"}
+{"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"testdoctor@gmail.com\" }","level":"error","timestamp":"2021-06-17T11:06:36.629Z"}
+{"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"testdoctor@gmail.com\" }","level":"error","timestamp":"2021-06-17T11:18:01.293Z"}

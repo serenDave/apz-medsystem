@@ -6,6 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { api } from '../../config';
 import Users from '../Users';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   root: {
@@ -53,6 +54,8 @@ const Administration = () => {
   const [highFrequency, setHighFrequency] = useState('');
   const [clinicName, setClinicName] = useState('');
   const [mainDoctorName, setMainDoctorName] = useState('');
+
+  const { t } = useTranslation();
 
   const handleTabChange = (_, newValue) => {
     setTabValue(newValue);
@@ -106,18 +109,18 @@ const Administration = () => {
   return (
     <Paper className={classes.root}>
       <Box mb={'20px'}>
-        <Typography variant={'h5'}>Administration</Typography>
+        <Typography variant={'h5'}>{t('admin.title')}</Typography>
         <hr />
       </Box>
       <AppBar position={'static'}>
         <Tabs value={tabValue} onChange={handleTabChange} aria-label={'patient tabs'}>
-          <Tab label={'Clinic data'} />
-          <Tab label={'Users'} />
+          <Tab label={t('admin.config.title')} />
+          <Tab label={t('admin.users.title')} />
         </Tabs>
       </AppBar>
       <TabPanel value={tabValue} index={0}>
         <Box my={'10px'}>
-          <Typography variant={'h6'}>Clinic data:</Typography>
+          <Typography variant={'h6'}>{t('admin.config.title')}:</Typography>
         </Box>
         <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'} mb={'20px'}>
           <div className={classes.textContainer}>
@@ -125,37 +128,37 @@ const Administration = () => {
               className={classes.numberField}
               value={lowFrequency}
               onChange={(e) => setLowFrequency(e.target.value)}
-              placeholder={'Low priority request frequency'}
-              label={'Low priority request frequency'}
+              placeholder={t('admin.config.lowPriorityRequestFrequency')}
+              label={t('admin.config.lowPriorityRequestFrequency')}
               margin={'normal'}
               variant={'outlined'}
               color={'primary'}
               type={'number'}
               inputProps={{ min: 1 }}
             />
-            <Box ml={'10px'}>minutes</Box>
+            <Box ml={'10px'}>{t('admin.config.mins')}</Box>
           </div>
           <div className={classes.textContainer}>
             <TextField
               className={classes.numberField}
               value={highFrequency}
               onChange={(e) => setHighFrequency(e.target.value)}
-              placeholder={'High priority request frequency'}
-              label={'High priority request frequency'}
+              placeholder={t('admin.config.highPriorityRequestFrequency')}
+              label={t('admin.config.highPriorityRequestFrequency')}
               margin={'normal'}
               variant={'outlined'}
               color={'primary'}
               type={'number'}
               inputProps={{ min: 1 }}
             />
-            <Box ml={'10px'}>minutes</Box>
+            <Box ml={'10px'}>{t('admin.config.mins')}</Box>
           </div>
           <TextField
             className={classes.textField}
             value={clinicName}
             onChange={(e) => setClinicName(e.target.value)}
-            placeholder={'Clinic name'}
-            label={'Clinic name'}
+            placeholder={t('admin.config.clinicname')}
+            label={t('admin.config.clinicname')}
             margin={'normal'}
             variant={'outlined'}
             color={'primary'}
@@ -164,8 +167,8 @@ const Administration = () => {
             className={classes.textField}
             value={mainDoctorName}
             onChange={(e) => setMainDoctorName(e.target.value)}
-            placeholder={'Main doctor of clinic'}
-            label={'Main doctor of clinic'}
+            placeholder={t('admin.config.maindoctor')}
+            label={t('admin.config.maindoctor')}
             margin={'normal'}
             variant={'outlined'}
             color={'primary'}
@@ -177,10 +180,10 @@ const Administration = () => {
           className={classes.button}
           onClick={() => saveChanges()}
         >
-          Save changes
+          {t('admin.config.savechanges')}
         </Button>
         <Button variant={'contained'} color={'secondary'} onClick={() => makeBackup()}>
-          Make backup of the system
+          {t('admin.config.makebackup')}
         </Button>
       </TabPanel>
       <TabPanel value={tabValue} index={1}>

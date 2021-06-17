@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles, Paper } from '@material-ui/core';
+import { makeStyles, Paper, Button } from '@material-ui/core';
 import { Table } from '../../components';
 import { api } from '../../config';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
     padding: 16,
     margin: '16px auto',
     maxWidth: 1200
+  },
+  spacer: {
+    marginBottom: 200
   }
 });
 
@@ -58,6 +62,14 @@ const Doctors = () => {
           rowsPerPage={10}
           onDelete={deleteDoctors}
         />
+        <Link to={'/add-doctor'}>
+          <Button
+            variant={'contained'}
+            color={'primary'}
+          >
+            {t('doctors.addnew')}
+          </Button>
+        </Link>
       </Paper>
     </>
   );

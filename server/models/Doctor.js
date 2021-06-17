@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('./User');
 
 const doctorSchema = new mongoose.Schema({
   fullName: {
@@ -16,6 +17,10 @@ const doctorSchema = new mongoose.Schema({
     enum: ['occupied', 'free']
   },
   patients: [mongoose.Schema.Types.ObjectId]
+});
+
+doctorSchema.post(/delete/i, async function (doc) {
+  await User.findOneAndDelete({ doctorId: doc._id });
 });
 
 const Doctor = mongoose.model('Doctor', doctorSchema);

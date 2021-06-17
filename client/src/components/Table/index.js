@@ -17,6 +17,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useSelector } from 'react-redux';
 import { Box } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 const descendingComparator = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
@@ -178,6 +179,8 @@ const EnhancedTable = ({
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
 
+  const { t } = useTranslation();
+
   const isAdmin = useSelector((state) => state.user.user.role === 'admin');
 
   const handleRequestSort = (event, property) => {
@@ -256,7 +259,7 @@ const EnhancedTable = ({
                 return (
                   <TableRow
                     hover
-                    onClick={() => onRowClick(row)}
+                    onClick={() => onRowClick && onRowClick(row)}
                     role='checkbox'
                     aria-checked={isItemSelected}
                     tabIndex={-1}
@@ -277,11 +280,11 @@ const EnhancedTable = ({
                         <Box py={'24px'}></Box>
                       )}
                     </TableCell>
-                    {Object.keys(row).map((key, i) => {
+                    {Object.keys(row).map((key, _, rowData) => {
                       if (key !== 'id') {
                         return (
-                          <TableCell id={labelId} scope='row' padding='none'>
-                            {row[key]}
+                          <TableCell id={labelId} key={key} scope='row' padding='none'>
+                            {rowData.translate && rowData.includes(key) ? t(row[key]) : row[key]}
                           </TableCell>
                         );
                       }

@@ -46,19 +46,22 @@
       "deliveryreason": "Причина надходження",
       "diagnosis": "Діагноз",
       "nodiagnosis": "Не вказаний",
-      "wardnumber": "Номер палатм",
+      "wardnumber": "Номер палати",
       "pulse": "Пульс",
       "temperature": "Температура",
-      "pressure": "Blood Pressure",
+      "pressure": "Тиск",
       "iot": {
-        "title": "IoT Data",
-        "aircondition": "Air condition",
-        "lighting": "Lighting",
-        "devicenumber": "Device Number",
-        "readdata": "Read data",
-        "downloaddoc": "Download document for entrance",
-        "ignoredata": "Dont read data from device",
-        "dontignoredata": "Read data from device"
+        "title": "IoT дані",
+        "aircondition": "Якість повітря",
+        "lighting": "Освітлення",
+        "devicenumber": "Номер пристрою",
+        "readdata": "Зчитувати дані",
+        "downloaddoc": "Завантажити документ про надходження",
+        "docloading": "Завантаження",
+        "ignoredata": "Не зчитувати дані з пристрою",
+        "dontignoredata": "Зчитувати дані з пристрою",
+        "yes": "Так",
+        "no": "Ні"
       }
     },
     "request": {
@@ -74,16 +77,35 @@
       "lastname": "Прізвище",
       "speciality": "Спеціальність",
       "status": "Статус",
-      "occupied": "Occupied",
-      "free": "Free",
-      "Surgeon": "Surgeon",
-      "Nurse": "Nurse"
+      "occupied": "Зайнятий",
+      "free": "Вільний",
+      "Surgeon": "Хірург",
+      "Nurse": "Медсестра"
     },
     "profile": {
       "title": "Профіль",
       "username": "Ім'я користувача",
       "email": "Пошта",
       "role": "Роль"
+    },
+    "admin": {
+      "title": "Адміністрування",
+      "config": {
+        "title": "Налаштування клініки",
+        "lowPriorityRequestFrequency": "Частота запитів із низьким пріорітетом",
+        "highPriorityRequestFrequency": "Частота запитів із високим пріорітетом",
+        "mins": "хвилин",
+        "clinicname": "Назва клініки",
+        "maindoctor": "Головний лікар клініки",
+        "savechanges": "Зберегти зміни",
+        "makebackup": "Зробити бекап системи"
+      },
+      "users": {
+        "title": "Користувачі",
+        "name": "Ім'я",
+        "email": "Пошта",
+        "role": "Роль"
+      }
     }
   }
 }

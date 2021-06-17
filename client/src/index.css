@@ -2,3 +2,9 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.section {
+  padding: 16px;
+  max-width: 1200px;
+  margin: 16px auto;
+}
