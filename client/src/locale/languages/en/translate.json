@@ -34,6 +34,7 @@
         "fullname": "Full Name",
         "mobilenumber": "Mobile number",
         "selectward": "Select ward number",
+        "diagnosis": "Diagnosis",
         "button": "Register",
         "success": "Patient has been successfully registered!",
         "newbutton": "Register a new patient"

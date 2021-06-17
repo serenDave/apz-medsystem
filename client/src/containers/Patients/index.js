@@ -102,7 +102,7 @@ const Patients = ({ history }) => {
           }}
           onDelete={deletePatients}
           initialOrderProp={'firstname'}
-          rowsPerPage={10}
+          rowsPerPage={15}
         />
       </TabPanel>
       <TabPanel value={tabValue} index={1}>

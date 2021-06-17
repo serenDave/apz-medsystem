@@ -98,21 +98,21 @@ const PatientInfo = ({ match }) => {
     [
       {
         description: t('patientinfo.iot.aircondition'),
-        value: patient?.iotDeviceId.airCondition,
+        value: patient?.iotDeviceId?.airCondition,
       },
       {
         description: t('patientinfo.iot.lighting'),
-        value: patient?.iotDeviceId.lighting,
+        value: patient?.iotDeviceId?.lighting,
       },
     ],
     [
       {
         description: t('patientinfo.iot.devicenumber'),
-        value: patient?.iotDeviceId.number,
+        value: patient?.iotDeviceId?.number,
       },
       {
         description: t('patientinfo.iot.readdata'),
-        value: patient?.iotDeviceId.ignored
+        value: patient?.iotDeviceId?.ignored
           ? t('patientinfo.iot.no')
           : t('patientinfo.iot.yes'),
       },
@@ -127,10 +127,10 @@ const PatientInfo = ({ match }) => {
           titleValue={patient && patient.fullName}
           displayData={patientDisplayData}
         />
-        {patient && patient.iotDeviceId && patient.iotDeviceId._id && (
+        {patient?.iotDeviceId?._id && (
           <Box mt={'40px'}>
             <InfoTable
-              title={t('patientinfo.iot.table')}
+              title={t('patientinfo.iot.title')}
               displayData={iotDisplayData}
             />
           </Box>
