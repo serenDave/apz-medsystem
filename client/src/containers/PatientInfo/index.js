@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Paper, Typography } from '@material-ui/core';
+import { Box, Button, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { api } from '../../config';
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import { EntrancePDF } from '../../components';
+import { EntrancePDF, InfoTable } from '../../components';
 import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   root: {
     padding: 16,
     maxWidth: 1200,
-    margin: '16px auto'
+    margin: '16px auto',
   },
   boldText: {
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 });
 
 const PatientInfo = ({ match }) => {
@@ -31,116 +31,108 @@ const PatientInfo = ({ match }) => {
   }, [match.params.id]);
 
   const setIgnorePatient = async (ignore) => {
-    const result = await api.patch(`/patients/ignore/${patient._id}`, { ignore });
+    const result = await api.patch(`/patients/ignore/${patient._id}`, {
+      ignore,
+    });
 
     if (result.data.status === 'success') {
       window.location.reload();
     }
   };
 
+  const patientDisplayData = [
+    [
+      {
+        description: t('patientinfo.dateofbirth'),
+        value:
+          patient && patient.dateOfBirth
+            ? new Date(patient.dateOfBirth).toLocaleDateString()
+            : t('patientinfo.nodiagnosis'),
+      },
+      {
+        description: t('patientinfo.mobilenumber'),
+        value:
+          patient && patient.mobileNumber
+            ? patient.mobileNumber
+            : t('nodiagnosis'),
+      },
+    ],
+    [
+      {
+        description: t('patientinfo.deliveryreason'),
+        value: patient && patient.deliveryReason.name,
+      },
+      {
+        description: t('patientinfo.diagnosis'),
+        value:
+          patient && patient.diagnosis
+            ? patient.diagnosis
+            : t('patientinfo.nodiagnosis'),
+      },
+    ],
+    [
+      {
+        description: t('patientinfo.wardnumber'),
+        value: patient && patient.wardId.number,
+      },
+      {
+        description: t('patientinfo.pulse'),
+        value: patient && patient.pulse,
+      },
+    ],
+    [
+      {
+        description: t('patientinfo.pressure'),
+        value: `${patient && patient.bloodPressure.systolic} / ${
+          patient && patient.bloodPressure.diastolic
+        }`,
+      },
+      {
+        description: t('patientinfo.temperature'),
+        value: patient && patient.temperature,
+      },
+    ],
+  ];
+
+  const iotDisplayData = [
+    [
+      {
+        description: t('patientinfo.iot.aircondition'),
+        value: patient?.iotDeviceId.airCondition,
+      },
+      {
+        description: t('patientinfo.iot.lighting'),
+        value: patient?.iotDeviceId.lighting,
+      },
+    ],
+    [
+      {
+        description: t('patientinfo.iot.devicenumber'),
+        value: patient?.iotDeviceId.number,
+      },
+      {
+        description: t('patientinfo.iot.readdata'),
+        value: patient?.iotDeviceId.ignored
+          ? t('patientinfo.iot.no')
+          : t('patientinfo.iot.yes'),
+      },
+    ],
+  ];
+
   return (
     <Paper className={classes.root}>
       <Box>
-        <Typography variant={'h5'}>{t('patientinfo.title')}: {patient && patient.fullName}</Typography>
-        <hr />
-        <Box display={'flex'} alignItems={'center'} mb={'10px'}>
-          <Box flex={1}>
-            <Typography variant={'body1'} className={classes.boldText}>
-              {t('patientinfo.dateofbirth')}:
-            </Typography>
-            <Typography variant={'body1'}>
-              {patient && patient.dateOfBirth
-                ? new Date(patient.dateOfBirth).toLocaleDateString()
-                : t('patientinfo.nodiagnosis')}
-            </Typography>
-          </Box>
-          <Box flex={1}>
-            <Typography variant={'body1'} className={classes.boldText}>
-              {t('patientinfo.mobilenumber')}:
-            </Typography>
-            <Typography variant={'body1'}>
-              {patient && patient.mobileNumber ? patient.mobileNumber : t('nodiagnosis')}
-            </Typography>
-          </Box>
-        </Box>
-        <Box display={'flex'} alignItems={'center'} mb={'10px'}>
-          <Box flex={1}>
-            <Typography variant={'body1'} className={classes.boldText}>
-              {t('patientinfo.deliveryreason')}:
-            </Typography>
-            <Typography variant={'body1'}>{patient && patient.deliveryReason.name}</Typography>
-          </Box>
-          <Box flex={1}>
-            <Typography variant={'body1'} className={classes.boldText}>
-              {t('patientinfo.diagnosis')}:
-            </Typography>
-            <Typography variant={'body1'}>
-              {patient && patient.diagnosis ? patient.diagnosis : t('patientinfo.nodiagnosis')}
-            </Typography>
-          </Box>
-        </Box>
-        <Box display={'flex'} alignItems={'center'} mb={'10px'}>
-          <Box flex={1}>
-            <Typography variant={'body1'} className={classes.boldText}>
-              {t('patientinfo.wardnumber')}:
-            </Typography>
-            <Typography variant={'body1'}>{patient && patient.wardId.number}</Typography>
-          </Box>
-          <Box flex={1}>
-            <Typography variant={'body1'} className={classes.boldText}>
-              {t('patientinfo.pulse')}:
-            </Typography>
-            <Typography variant={'body1'}>{patient && patient.pulse} </Typography>
-          </Box>
-        </Box>
-        <Box display={'flex'} alignItems={'center'} mb={'10px'}>
-          <Box flex={1}>
-            <Typography variant={'body1'} className={classes.boldText}>
-              {t('patientinfo.pressure')}:
-            </Typography>
-            <Typography variant={'body1'}>
-              {`${patient && patient.bloodPressure.systolic} / ${patient && patient.bloodPressure.diastolic}`}
-            </Typography>
-          </Box>
-          <Box flex={1}>
-            <Typography variant={'body1'} className={classes.boldText}>
-              {t('patientinfo.temperature')}:
-            </Typography>
-            <Typography variant={'body1'}>{patient && patient.temperature}</Typography>
-          </Box>
-        </Box>
+        <InfoTable
+          title={t('patientinfo.title')}
+          titleValue={patient && patient.fullName}
+          displayData={patientDisplayData}
+        />
         {patient && patient.iotDeviceId && patient.iotDeviceId._id && (
           <Box mt={'40px'}>
-            <Typography variant={'h5'}>{t('patientinfo.iot.title')}:</Typography>
-            <hr />
-            <Box display={'flex'} alignItems={'center'} mb={'10px'}>
-              <Box flex={1}>
-                <Typography variant={'body1'} className={classes.boldText}>
-                  {t('patientinfo.iot.aircondition')}:
-                </Typography>
-                <Typography variant={'body1'}>{patient.iotDeviceId.airCondition}</Typography>
-              </Box>
-              <Box flex={1}>
-                <Typography variant={'body1'} className={classes.boldText}>
-                  {t('patientinfo.iot.lighting')}:
-                </Typography>
-                <Typography variant={'body1'}>{patient.iotDeviceId.lighting}</Typography>
-              </Box>
-            </Box>
-            <Box display={'flex'}>
-              <Box flex={1}>
-                <Typography variant={'body1'} className={classes.boldText}>
-                  {t('patientinfo.iot.devicenumber')}:
-                </Typography>
-                <Typography variant={'body1'}>{patient.iotDeviceId.number}</Typography>
-              </Box>
-              <Box flex={1}>
-                <Typography variant={'body1'} className={classes.boldText}>
-                  {t('patientinfo.iot.readdata')}:
-                </Typography>
-                <Typography variant={'body1'}>{patient.iotDeviceId.ignored ? t('patientinfo.iot.no') : t('patientinfo.iot.yes')}</Typography>
-              </Box>
-            </Box>
+            <InfoTable
+              title={t('patientinfo.iot.table')}
+              displayData={iotDisplayData}
+            />
           </Box>
         )}
       </Box>
@@ -158,22 +150,36 @@ const PatientInfo = ({ match }) => {
                 color: '#4a4a4a',
                 backgroundColor: '##3f51b5',
                 border: '1px solid #4a4a4a',
-                borderRadius: 4
+                borderRadius: 4,
               }}
             >
-              {({ loading }) => (loading ? t('patientinfo.iot.docloading') : t('patientinfo.iot.downloaddoc'))}
+              {({ loading }) =>
+                loading
+                  ? t('patientinfo.iot.docloading')
+                  : t('patientinfo.iot.downloaddoc')
+              }
             </PDFDownloadLink>
           </Box>
         )}
         <Box mr={'20px'}>
-          {patient && patient.iotDeviceId ? patient.iotDeviceId.ignored ? (
-            <Button variant={'outlined'} color={'primary'} onClick={() => setIgnorePatient(false)}>
-              {t('patientinfo.iot.dontignoredata')}
-            </Button>
-          ) : (
-            <Button variant={'outlined'} color={'secondary'} onClick={() => setIgnorePatient(true)}>
-              {t('patientinfo.iot.ignoredata')}
-            </Button>
+          {patient && patient.iotDeviceId ? (
+            patient.iotDeviceId.ignored ? (
+              <Button
+                variant={'outlined'}
+                color={'primary'}
+                onClick={() => setIgnorePatient(false)}
+              >
+                {t('patientinfo.iot.dontignoredata')}
+              </Button>
+            ) : (
+              <Button
+                variant={'outlined'}
+                color={'secondary'}
+                onClick={() => setIgnorePatient(true)}
+              >
+                {t('patientinfo.iot.ignoredata')}
+              </Button>
+            )
           ) : null}
         </Box>
       </Box>
