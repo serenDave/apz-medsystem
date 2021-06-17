@@ -14,6 +14,7 @@ import { CssBaseline, makeStyles } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { actions } from './redux/actions';
 import AddDoctor from './containers/AddDoctor';
+import EditPatient from './containers/EditPatient';
 
 const useStyles = makeStyles({
   root: {
@@ -62,6 +63,7 @@ const App = () => {
       <>
         <Route exact path='/patients' component={Patients} />
         <Route exact path='/patientinfo/:id' component={PatientInfo} />
+        <Route exact path='/edit-patient/:id' component={EditPatient} />
         <Route exact path='/requests' component={Requests} />
         <Route exact path='/doctors' component={Doctors} />
         <Route exact path='/profile' component={Profile} />

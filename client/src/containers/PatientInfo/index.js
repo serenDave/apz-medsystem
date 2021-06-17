@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   },
 });
 
-const PatientInfo = ({ match }) => {
+const PatientInfo = ({ match, history }) => {
   const classes = useStyles();
   const [patient, setPatient] = useState(null);
   const { t } = useTranslation();
@@ -162,7 +162,7 @@ const PatientInfo = ({ match }) => {
           </Box>
         )}
         <Box mr={'20px'}>
-          {patient && patient.iotDeviceId ? (
+          {patient?.iotDeviceId ? (
             patient.iotDeviceId.ignored ? (
               <Button
                 variant={'outlined'}
@@ -181,6 +181,17 @@ const PatientInfo = ({ match }) => {
               </Button>
             )
           ) : null}
+        </Box>
+        <Box mr={'20px'}>
+          <Button
+            variant={'contained'}
+            color={'primary'}
+            onClick={() => {
+              history.push(`/edit-patient/${match.params.id}`, { patient });
+            }}
+          >
+            {t('patientinfo.edit')}
+          </Button>
         </Box>
       </Box>
     </Paper>

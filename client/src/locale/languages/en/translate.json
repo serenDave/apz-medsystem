@@ -51,6 +51,8 @@
       "pulse": "Pulse",
       "temperature": "Temperature",
       "pressure": "Blood Pressure",
+      "edit": "Edit patient data",
+      "submitEdit": "Update data",
       "iot": {
         "title": "IoT Data",
         "aircondition": "Air condition",
