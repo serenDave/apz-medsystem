@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   }
 });
 
-const Doctors = () => {
+const Doctors = ({ history }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [doctorsData, setDoctorsData] = useState([]);
@@ -60,6 +60,9 @@ const Doctors = () => {
           rowsData={doctorsData}
           initialOrderProp={'firstname'}
           rowsPerPage={10}
+          onRowClick={(row) => {
+            history.push(`/doctorinfo/${row.id}`);
+          }}
           onDelete={deleteDoctors}
         />
         <Link to={'/add-doctor'}>

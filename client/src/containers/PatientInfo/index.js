@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Box, Button, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { api } from '../../config';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { EntrancePDF, InfoTable } from '../../components';
 import { useTranslation } from 'react-i18next';
+import useInfo from '../../hooks/useInfo';
 
 const useStyles = makeStyles({
   root: {
@@ -19,17 +20,9 @@ const useStyles = makeStyles({
 
 const PatientInfo = ({ match, history }) => {
   const classes = useStyles();
-  const [patient, setPatient] = useState(null);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    api.get(`/patients/${match.params.id}`).then((result) => {
-      if (result.data.status === 'success') {
-        setPatient(result.data.data.doc);
-      }
-    });
-  }, [match.params.id]);
-
+  const { info: patient } = useInfo(`/patients/${match.params.id}`);
+  
   const setIgnorePatient = async (ignore) => {
     const result = await api.patch(`/patients/ignore/${patient._id}`, {
       ignore,

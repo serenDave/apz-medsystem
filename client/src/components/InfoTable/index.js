@@ -16,10 +16,10 @@ const InfoTable = ({ title, titleValue, displayData }) => {
           {title}: {titleValue}
         </Typography>
         <hr />
-        {displayData.map((cell) => (
-          <Box display={'flex'} alignItems={'center'} mb={'10px'}>
-            {cell.map((item) => (
-              <Box flex={1}>
+        {displayData.map((cell, i) => (
+          <Box display={'flex'} alignItems={'center'} mb={'10px'} key={i}>
+            {cell.map((item, i) => (
+              <Box flex={1} key={`${i}-${item.description}`}>
                 <Typography variant={'body1'} className={classes.boldText}>
                   {item.description}:
                 </Typography>

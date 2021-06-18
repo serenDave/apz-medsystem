@@ -6,3 +6,4 @@
 {"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"testdoctor12@gmail.com\" }","level":"error","timestamp":"2021-06-17T11:02:27.419Z"}
 {"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"testdoctor@gmail.com\" }","level":"error","timestamp":"2021-06-17T11:06:36.629Z"}
 {"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"testdoctor@gmail.com\" }","level":"error","timestamp":"2021-06-17T11:18:01.293Z"}
+{"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"testdoctor@gmail.com\" }","level":"error","timestamp":"2021-06-18T15:45:10.449Z"}

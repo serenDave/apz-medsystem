@@ -15,6 +15,8 @@ import { useDispatch } from 'react-redux';
 import { actions } from './redux/actions';
 import AddDoctor from './containers/AddDoctor';
 import EditPatient from './containers/EditPatient';
+import DoctorInfo from './containers/DoctorInfo';
+import EditDoctor from './containers/EditDoctor';
 
 const useStyles = makeStyles({
   root: {
@@ -70,6 +72,8 @@ const App = () => {
         <Route exact path='/administration' component={Administration} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/add-doctor' component={AddDoctor} />
+        <Route exact path='/doctorinfo/:id' component={DoctorInfo} />
+        <Route exact path='/edit-doctor/:id' component={EditDoctor} />
         <Redirect from='/' to='/patients' />
       </>
     );
