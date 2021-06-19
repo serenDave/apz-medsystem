@@ -96,8 +96,10 @@
       "addnew": "Додати нового лікаря",
       "occupied": "Зайнятий",
       "free": "Вільний",
-      "Surgeon": "Хірург",
-      "Nurse": "Медсестра"
+      "specialities": {
+        "surgeon": "Хірург",
+        "nurse": "Медсестра"
+      }
     },
     "profile": {
       "title": "Профіль",
@@ -138,6 +140,15 @@
       "email": "Пошта",
       "password": "Пароль",
       "submit": "Додати лікаря"
+    },
+    "deliveryReasons": {
+      "intoxication": "Інтоксикація",
+      "injury": "Травма",
+      "fainting": "Знепритомніння",
+      "fracture": "Перелом",
+      "high_temperature": "Висока температура",
+      "attack": "Напад",
+      "other": "Інше"
     }
   }
 }

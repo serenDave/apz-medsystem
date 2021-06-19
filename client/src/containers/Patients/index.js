@@ -56,7 +56,10 @@ const Patients = ({ history }) => {
           ward: patient.wardId.number,
           pulse: patient.pulse,
           temperature: patient.temperature,
-          bloodpressure: `${patient.bloodPressure.systolic} / ${patient.bloodPressure.diastolic}`
+          bloodpressure: `${patient.bloodPressure.systolic} / ${patient.bloodPressure.diastolic}`,
+          translate: { 
+            deliveryreason: 'deliveryReasons'
+          }
         }));
 
         setPatientsData(data);

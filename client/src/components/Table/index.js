@@ -57,7 +57,7 @@ const EnhancedTableHead = (props) => {
     rowCount,
     onRequestSort,
     headCells,
-    isAdmin
+    isAdmin,
   } = props;
 
   const createSortHandler = (property) => (event) => {
@@ -107,15 +107,15 @@ const EnhancedTableHead = (props) => {
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1)
+    paddingRight: theme.spacing(1),
   },
   highlight: {
     color: theme.palette.secondary.main,
-    backgroundColor: lighten(theme.palette.secondary.light, 0.85)
+    backgroundColor: lighten(theme.palette.secondary.light, 0.85),
   },
   title: {
-    flex: '1 1 100%'
-  }
+    flex: '1 1 100%',
+  },
 }));
 
 const EnhancedTableToolbar = (props) => {
@@ -123,13 +123,25 @@ const EnhancedTableToolbar = (props) => {
   const { numSelected, header, onDelete } = props;
 
   return (
-    <Toolbar className={clsx(classes.root, { [classes.highlight]: numSelected > 0 })}>
+    <Toolbar
+      className={clsx(classes.root, { [classes.highlight]: numSelected > 0 })}
+    >
       {numSelected > 0 ? (
-        <Typography className={classes.title} color='inherit' variant='subtitle1' component='div'>
+        <Typography
+          className={classes.title}
+          color='inherit'
+          variant='subtitle1'
+          component='div'
+        >
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography className={classes.title} variant='h5' id='tableTitle' component='div'>
+        <Typography
+          className={classes.title}
+          variant='h5'
+          id='tableTitle'
+          component='div'
+        >
           {header}
         </Typography>
       )}
@@ -146,10 +158,10 @@ const EnhancedTableToolbar = (props) => {
 
 const useTableStyles = makeStyles((theme) => ({
   root: {
-    width: '100%'
+    width: '100%',
   },
   table: {
-    minWidth: 750
+    minWidth: 750,
   },
   visuallyHidden: {
     border: 0,
@@ -160,8 +172,8 @@ const useTableStyles = makeStyles((theme) => ({
     padding: 0,
     position: 'absolute',
     top: 20,
-    width: 1
-  }
+    width: 1,
+  },
 }));
 
 const EnhancedTable = ({
@@ -171,7 +183,7 @@ const EnhancedTable = ({
   header,
   rowsPerPage,
   onRowClick,
-  onDelete
+  onDelete,
 }) => {
   const classes = useTableStyles();
   const [order, setOrder] = React.useState('asc');
@@ -209,7 +221,10 @@ const EnhancedTable = ({
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
     }
 
     setSelected(newSelected);
@@ -221,7 +236,8 @@ const EnhancedTable = ({
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rowsData.length - page * rowsPerPage);
+  const emptyRows =
+    rowsPerPage - Math.min(rowsPerPage, rowsData.length - page * rowsPerPage);
 
   const onDeleteHandler = () => {
     setSelected([]);
@@ -230,7 +246,11 @@ const EnhancedTable = ({
 
   return (
     <div className={classes.root}>
-      <EnhancedTableToolbar numSelected={selected.length} header={header} onDelete={onDeleteHandler} />
+      <EnhancedTableToolbar
+        numSelected={selected.length}
+        header={header}
+        onDelete={onDeleteHandler}
+      />
       <TableContainer>
         <Table
           className={classes.table}
@@ -280,11 +300,20 @@ const EnhancedTable = ({
                         <Box py={'24px'}></Box>
                       )}
                     </TableCell>
-                    {Object.keys(row).map((key, _, rowData) => {
-                      if (key !== 'id') {
+                    {Object.keys(row).map((key) => {
+                      if (!['id', 'translate'].includes(key)) {
+                        console.log(row.translate[key]);
+
                         return (
-                          <TableCell id={labelId} key={key} scope='row' padding='none'>
-                            {rowData.translate && rowData.includes(key) ? t(row[key]) : row[key]}
+                          <TableCell
+                            id={labelId}
+                            key={key}
+                            scope='row'
+                            padding='none'
+                          >
+                            {row?.translate[key]
+                              ? t(`${row.translate[key]}.${row[key]}`)
+                              : row[key]}
                           </TableCell>
                         );
                       }

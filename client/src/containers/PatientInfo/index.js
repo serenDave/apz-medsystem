@@ -53,7 +53,7 @@ const PatientInfo = ({ match, history }) => {
     [
       {
         description: t('patientinfo.deliveryreason'),
-        value: patient && patient.deliveryReason.name,
+        value: patient && t(`deliveryReasons.${patient.deliveryReason.name}`),
       },
       {
         description: t('patientinfo.diagnosis'),

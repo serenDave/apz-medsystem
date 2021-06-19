@@ -142,6 +142,15 @@
       "email": "Email",
       "password": "Password",
       "submit": "Add doctor"
+    },
+    "deliveryReasons": {
+      "intoxication": "Intoxication",
+      "injury": "Injury",
+      "fainting": "Fainting",
+      "fracture": "Fracture",
+      "high_temperature": "High temperature",
+      "attack": "Attack",
+      "other": "Other"
     }
   }
 }

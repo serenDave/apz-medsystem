@@ -9,11 +9,11 @@ const useStyles = makeStyles({
   root: {
     padding: 16,
     margin: '16px auto',
-    maxWidth: 1200
+    maxWidth: 1200,
   },
   spacer: {
-    marginBottom: 200
-  }
+    marginBottom: 200,
+  },
 });
 
 const Doctors = ({ history }) => {
@@ -29,8 +29,14 @@ const Doctors = ({ history }) => {
           id: doctor._id,
           firstname: doctor.fullName.split(' ')[0],
           lastname: doctor.fullName.split(' ')[1],
-          speciality: `${doctor.speciality[0]}${doctor.speciality.slice(1).toLowerCase()}`,
-          status: doctor.status
+          speciality: `${doctor.speciality[0]}${doctor.speciality
+            .slice(1)
+            .toLowerCase()}`,
+          status: doctor.status,
+          translate: {
+            speciality: 'doctors.specialities',
+            status: 'doctors',
+          }
         }));
 
         setDoctorsData(data);
@@ -55,7 +61,7 @@ const Doctors = ({ history }) => {
             { id: 'firstname', label: t('doctors.firstname') },
             { id: 'lastname', label: t('doctors.lastname') },
             { id: 'speciality', label: t('doctors.speciality') },
-            { id: 'status', label: t('doctors.status') }
+            { id: 'status', label: t('doctors.status') },
           ]}
           rowsData={doctorsData}
           initialOrderProp={'firstname'}
@@ -66,10 +72,7 @@ const Doctors = ({ history }) => {
           onDelete={deleteDoctors}
         />
         <Link to={'/add-doctor'}>
-          <Button
-            variant={'contained'}
-            color={'primary'}
-          >
+          <Button variant={'contained'} color={'primary'}>
             {t('doctors.addnew')}
           </Button>
         </Link>
