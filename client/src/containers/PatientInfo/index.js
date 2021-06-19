@@ -22,7 +22,7 @@ const PatientInfo = ({ match, history }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { info: patient } = useInfo(`/patients/${match.params.id}`);
-  
+
   const setIgnorePatient = async (ignore) => {
     const result = await api.patch(`/patients/ignore/${patient._id}`, {
       ignore,
@@ -154,9 +154,9 @@ const PatientInfo = ({ match, history }) => {
             </PDFDownloadLink>
           </Box>
         )}
-        <Box mr={'20px'}>
-          {patient?.iotDeviceId ? (
-            patient.iotDeviceId.ignored ? (
+        {patient?.iotDeviceId ? (
+          <Box mr={'20px'}>
+            {patient.iotDeviceId.ignored ? (
               <Button
                 variant={'outlined'}
                 color={'primary'}
@@ -172,10 +172,23 @@ const PatientInfo = ({ match, history }) => {
               >
                 {t('patientinfo.iot.ignoredata')}
               </Button>
-            )
-          ) : null}
+            )}
+          </Box>
+        ) : null}
+        <Box>
+          <Button
+            variant={'outlined'}
+            color={'primary'}
+            onClick={() => {
+              history.push(`/attach-iot/${match.params.id}`, {
+                existingDevice: patient?.iotDeviceId,
+              });
+            }}
+          >
+            {t('patientinfo.attachiot')}
+          </Button>
         </Box>
-        <Box mr={'20px'}>
+        <Box ml={'20px'}>
           <Button
             variant={'contained'}
             color={'primary'}

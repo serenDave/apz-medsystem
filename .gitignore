@@ -60,3 +60,5 @@ yarn-error.log*
 server/firebase-key.json
 
 *.tar.gz
+
+*.log

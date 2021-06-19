@@ -15,7 +15,6 @@ const iotDeviceSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  location: [Number],
 });
 
 const IoTDevice = mongoose.model('IoTDevice', iotDeviceSchema);

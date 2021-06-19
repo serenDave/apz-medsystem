@@ -17,6 +17,7 @@ import AddDoctor from './containers/AddDoctor';
 import EditPatient from './containers/EditPatient';
 import DoctorInfo from './containers/DoctorInfo';
 import EditDoctor from './containers/EditDoctor';
+import AttachIoT from './containers/AttachIoT';
 
 const useStyles = makeStyles({
   root: {
@@ -74,6 +75,7 @@ const App = () => {
         <Route exact path='/add-doctor' component={AddDoctor} />
         <Route exact path='/doctorinfo/:id' component={DoctorInfo} />
         <Route exact path='/edit-doctor/:id' component={EditDoctor} />
+        <Route exact path='/attach-iot/:patientId' component={AttachIoT} />
         <Redirect from='/' to='/patients' />
       </>
     );

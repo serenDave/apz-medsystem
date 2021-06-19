@@ -53,6 +53,7 @@
       "pressure": "Blood Pressure",
       "edit": "Edit patient data",
       "submitEdit": "Update data",
+      "attachiot": "Attach iot",
       "iot": {
         "title": "IoT Data",
         "aircondition": "Air condition",
@@ -66,6 +67,12 @@
         "yes": "Yes",
         "no": "No"
       }
+    },
+    "attachiot": {
+      "title": "Attach iot device",
+      "iot": "IoT device",
+      "submit": "Submit attachment",
+      "nodevices": "There are no available iot devices"
     },
     "request": {
       "title": "Requests",

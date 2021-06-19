@@ -13,7 +13,7 @@ const errorHandler = require('../utils/errors/errorController');
 // Index router
 const indexRouter = require('../routes/index.routes');
 
-const getAccessToken = require('./firebaseMessaging');
+// const getAccessToken = require('./firebaseMessaging');
 
 module.exports.init = () => {
     // DB connection
@@ -42,10 +42,10 @@ module.exports.init = () => {
 
     app.use(errorHandler);
 
-    getAccessToken()
-      .then(() => {
-        console.log('Firebase token generated successfully');
-      });
+    // getAccessToken()
+    //   .then(() => {
+    //     console.log('Firebase token generated successfully');
+    //   });
 
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files
