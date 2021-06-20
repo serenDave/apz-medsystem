@@ -1,3 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">apz-medsystem</string>
+    <string name="email">Пошта</string>
+    <string name="password">Пароль</string>
+    <string name="login">Увійти</string>
+    <string name="email_hint">Введіть вашу пошту</string>
+    <string name="medsystem">Medsystem</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Пошта</string>
+    <string name="prompt_password">Пароль</string>
+    <string name="action_sign_in">Увійдіть або зареєструйтесь</string>
+    <string name="action_sign_in_short">Увійти</string>
+    <string name="welcome">"Вітаємо !"</string>
+    <string name="invalid_username">Некоректне ім\'я користувача</string>
+    <string name="invalid_password">Пароль повинен бути більше 5 символів</string>
+    <string name="login_failed">"Не вдалося увійти"</string>
+    <string name="enter_your_password">Введіть ваш пароль</string>
+    <string name="home_welcome">Вітаємо</string>
+    <string name="hello_blank_fragment">Привіт</string>
+    <string name="patients">Пацієнти</string>
+    <string name="current_patient">Поточний пацієнт</string>
+    <string name="profile">Профіль</string>
+    <string name="unknown">Невідомо</string>
+    <string name="mobile_number">Номер телефону</string>
+    <string name="delivery_reason">Причина надходження</string>
+    <string name="patient">Пацієнт</string>
+    <string name="ward_number">Номер палати</string>
+    <string name="temperature">Температура</string>
+    <string name="pulse">Пульс</string>
+    <string name="blood_pressure">Тиск</string>
+    <string name="log_out">Вийти</string>
+    <string name="name">Ім\'я</string>
+    <string name="take_patient">Взяти пацієнта</string>
+    <string name="leave_patient">Заверешити огляд</string>
 </resources>

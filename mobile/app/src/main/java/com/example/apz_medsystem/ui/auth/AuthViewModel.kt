@@ -37,4 +37,8 @@ class AuthViewModel(
     fun saveUserEmail(email: String) = viewModelScope.launch {
         repository.saveUserEmail(email)
     }
+
+    fun saveDoctorId(doctorId: String) = viewModelScope.launch {
+        repository.saveDoctorId(doctorId)
+    }
 }

@@ -31,5 +31,6 @@
     <string name="log_out">Log out</string>
     <string name="name">Name</string>
     <string name="take_patient">Take Patient</string>
-    <string name="leave_patient">Leave Patient</string>
+    <string name="leave_patient">Finish treatment</string>
+    <string name="language">Language</string>
 </resources>

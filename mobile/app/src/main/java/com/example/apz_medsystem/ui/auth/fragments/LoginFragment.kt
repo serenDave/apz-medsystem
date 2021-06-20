@@ -27,14 +27,15 @@ class LoginFragment: BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepos
         binding.progressBar.visible(false)
         binding.buttonLogin.enable(false)
 
-        viewModel.loginResponse.observe(viewLifecycleOwner, Observer {
+        viewModel.loginResponse.observe(viewLifecycleOwner, { response ->
             binding.progressBar.visible(false)
 
-            when (it) {
+            when (response) {
                 is Resource.Success -> {
-                    viewModel.saveAuthToken(it.value.token)
-                    viewModel.saveUserName(it.value.data.user.name)
-                    viewModel.saveUserEmail(it.value.data.user.email)
+                    viewModel.saveAuthToken(response.value.token)
+                    viewModel.saveUserName(response.value.data.user.name)
+                    viewModel.saveUserEmail(response.value.data.user.email)
+                    response.value.data.user.doctorId?.let { it1 -> viewModel.saveDoctorId(it1) }
                     requireActivity().startNewActivity(HomeActivity::class.java)
                 }
                 is Resource.Failure -> {

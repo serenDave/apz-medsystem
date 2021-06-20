@@ -1,4 +1,5 @@
 package com.example.apz_medsystem.data.responses
 
-class DoctorResponse {
-}
+data class DoctorResponse(
+    val ok: String
+)

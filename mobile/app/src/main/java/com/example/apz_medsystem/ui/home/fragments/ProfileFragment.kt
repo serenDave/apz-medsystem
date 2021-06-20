@@ -3,7 +3,6 @@ package com.example.apz_medsystem.ui.home.fragments
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import com.example.apz_medsystem.data.UserPreferences
 import com.example.apz_medsystem.data.network.MainApi
@@ -20,11 +19,11 @@ class ProfileFragment : BaseFragment<HomeViewModel, FragmentProfileBinding, Main
         super.onActivityCreated(savedInstanceState)
         val userPreferences = UserPreferences(requireContext())
 
-        userPreferences.userEmail.asLiveData().observe(viewLifecycleOwner, Observer { email ->
+        userPreferences.userEmail.asLiveData().observe(viewLifecycleOwner, { email ->
             binding.tvEmailText.text = email
         })
 
-        userPreferences.userName.asLiveData().observe(viewLifecycleOwner, Observer { name ->
+        userPreferences.userName.asLiveData().observe(viewLifecycleOwner, { name ->
             binding.tvNameText.text = name
         })
 

@@ -28,14 +28,11 @@ class HomeViewModel(
         }
     }
 
-    fun takePatient(patient: Doc) = viewModelScope.launch {
-        repository.upsert(patient)
-    }
-
     fun getCurrentPatients() = repository.getCurrentPatients()
 
     fun deletePatient(patient: Doc) = viewModelScope.launch {
         repository.deletePatient(patient)
+        repository.doctorFinished(patient._id)
     }
 
     fun logout() = viewModelScope.launch {

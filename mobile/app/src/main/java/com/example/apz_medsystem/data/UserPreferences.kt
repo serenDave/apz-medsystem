@@ -12,9 +12,7 @@ import kotlinx.coroutines.flow.map
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "app_data")
 
-class UserPreferences(
-    context: Context
-) {
+class UserPreferences(context: Context) {
     private val appContext = context.applicationContext
 
     val authToken: Flow<String?>
@@ -30,6 +28,11 @@ class UserPreferences(
     val userEmail: Flow<String?>
         get() = appContext.dataStore.data.map { preferences ->
             preferences[USER_EMAIL]
+        }
+
+    val doctorId: Flow<String?>
+        get() = appContext.dataStore.data.map { preferences ->
+            preferences[DOCTOR_ID]
         }
 
     suspend fun saveAuthToken (authToken: String) {
@@ -50,6 +53,12 @@ class UserPreferences(
         }
     }
 
+    suspend fun saveDoctorId (doctorId: String) {
+        appContext.dataStore.edit { preferences ->
+            preferences[DOCTOR_ID] = doctorId
+        }
+    }
+
     suspend fun clear() {
         appContext.dataStore.edit { preferences ->
             preferences.clear()
@@ -60,5 +69,6 @@ class UserPreferences(
         private val ACCESS_TOKEN = stringPreferencesKey("access_token")
         private val USER_NAME = stringPreferencesKey("user_name")
         private val USER_EMAIL = stringPreferencesKey("user_email")
+        private val DOCTOR_ID = stringPreferencesKey("doctor_id")
     }
 }

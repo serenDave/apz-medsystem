@@ -27,4 +27,8 @@ class AuthRepository(
     suspend fun saveUserEmail(email: String) {
         preferences.saveUserEmail(email)
     }
+
+    suspend fun saveDoctorId(doctorId: String) {
+        preferences.saveDoctorId(doctorId)
+    }
 }

@@ -25,7 +25,7 @@ exports.processNewRequest = catchError(async (req, res, next) => {
   const iotDevice = await IoTDevice.findOneAndUpdate({ ...roomData });
 
   if (!iotDevice.ignored) {
-    const result = await processRequest(patient, message, priority);
+    await processRequest(patient, message, priority);
   }
 
   res.status(200).json({
