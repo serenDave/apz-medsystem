@@ -2,12 +2,17 @@
 #define	lightSensor A1
 #define gasSensor A2
 
-#define R 2
-#define B 3
-#define G 4
+#define RED_ANALOG_INPUT 2
+#define BLUE_ANALOG_INPUT 3
+#define GREEN_ANALOG_INPUT 4
 
 #define DELAY_VALUE 5000
 #define TIMER_VALUE 5
+
+#define ADC_CONVERTER 1024
+#define VOLTAGE_CONVERTER 1.1
+#define CELCIUS_SHIFT 0.5
+#define INTEGER_CONVERTER 100
 
 int generateValue(int min, int max)
 {
@@ -40,9 +45,9 @@ void setup()
   Serial.begin(9600);
   analogReference(INTERNAL);
   
-  pinMode(R, OUTPUT);
-  pinMode(G, OUTPUT);
-  pinMode(B, OUTPUT);
+  pinMode(RED_ANALOG_INPUT, OUTPUT);
+  pinMode(GREEN_ANALOG_INPUT, OUTPUT);
+  pinMode(BLUE_ANALOG_INPUT, OUTPUT);
 }
 
 void loop()                      
@@ -90,8 +95,12 @@ void loop()
 
 float convertTemperature(int analogRead)
 {
-  float voltage = (analogRead * 1.1) / 1024.0;
-  float temperatureC = (voltage - 0.5) * 100 ; 
+  float voltage = analogRead * VOLTAGE_CONVERTER;
+  voltage /= ADC_CONVERTER;
+  
+  float temperatureC = voltage - CELCIUS_SHIFT;
+  temperatureC *= INTEGER_CONVERTER;
+  
   return temperatureC;
 }
 
@@ -175,14 +184,14 @@ void processAirCondition(int gas, String& resultMessage)
 
 void turnLampYellow()
 {
-  analogWrite(R, 255); 
-  analogWrite(G, 255);
-  analogWrite(B, 0);
+  analogWrite(RED_ANALOG_INPUT, 255); 
+  analogWrite(GREEN_ANALOG_INPUT, 255);
+  analogWrite(BLUE_ANALOG_INPUT, 0);
 }
 
 void turnLampGreen()
 {
-  analogWrite(R, 0); 
+  analogWrite(RED_ANALOG_INPUT, 0); 
   analogWrite(G, 255);
   analogWrite(B, 0);
 }
