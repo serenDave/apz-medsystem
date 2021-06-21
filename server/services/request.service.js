@@ -8,6 +8,8 @@ const getAccessToken = require('../config/firebaseMessaging');
 const logger = require('../utils/log/logger');
 const constants = require('../constants');
 
+const timeouts = {};
+
 const sendNotification = async (receiver, patient, message) => {
   const accessToken = await getAccessToken();
   const [userToSend] = await User.find({ doctorId: receiver.id });
@@ -22,7 +24,7 @@ const sendNotification = async (receiver, patient, message) => {
           message: {
             token: userToSend.deviceIdToken,
             notification: {
-              title: `Request from ${patient.fullName}`,
+              title: `Request from ${patient.fullName}. Ward number: ${patient.wardId?.number}`,
               body: message,
             },
             data: {
@@ -50,13 +52,13 @@ const sendNotification = async (receiver, patient, message) => {
 };
 
 const setTimeoutResponse = (doctorId, requestData, notSendToDoctors = []) => {
-  setTimeout(
+  return setTimeout(
     (doctorId, requestData) => {
-      console.log('Doctor didn\'t respond, processing request again...');
-
       Doctor.findById(doctorId).then((doctor) => {
         if (!doctor.patients.includes(requestData.patient.id)) {
-          exports.processRequest(
+          console.log('Doctor didn\'t respond, processing request again...');
+
+          this.processRequest(
             requestData.patient,
             requestData.requestType,
             requestData.priority,
@@ -107,11 +109,13 @@ exports.processRequest = async (
           continue;
         } else if (currentDoctor.status === 'free') {
           sendNotification(currentDoctor, patient, message);
-          setTimeoutResponse(
+          const responseTimeout = setTimeoutResponse(
             currentDoctor.id,
             { ...requestData, requestId, patient },
             notSendToDoctors
           );
+
+          timeouts[currentDoctor.id] = responseTimeout;
           notificationSent = true;
           break;
         }
@@ -144,11 +148,13 @@ exports.processRequest = async (
         for (let i = 0; i < nurses.length; i++) {
           const currentNurse = nurses[i];
           await sendNotification(currentNurse, patient, message);
-          setTimeoutResponse(
+          const responseTimeout = setTimeoutResponse(
             currentNurse.id,
             { ...requestData, requestId, patient },
             notSendToDoctors
           );
+
+          timeouts[currentNurse.id] = responseTimeout;
           break;
         }
       }
@@ -175,6 +181,10 @@ exports.processDoctorFinishedTreating = async (doctorId, patientId) => {
 
   if (doctor.patients.length === 0) {
     doctor.status = 'free';
+  }
+
+  if (timeouts[doctorId]) {
+    clearTimeout(timeouts[doctorId]);
   }
 
   await doctor.save();
