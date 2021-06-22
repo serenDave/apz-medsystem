@@ -4,6 +4,10 @@ const router = express.Router();
 const RequestController = require('../controllers/request.controller');
 const AuthController = require('../controllers/auth.controller');
 
+router.post('/new', RequestController.processNewRequest);
+router.post('/doctor-response', RequestController.processDoctorResponse);
+router.post('/doctor-finished', RequestController.processDoctorFinished);
+
 router.use(AuthController.protect);
 
 router.route('/')
@@ -15,10 +19,6 @@ router
   .get(RequestController.getSingleRequest)
   .patch(RequestController.updateRequest)
   .delete(RequestController.deleteRequest);
-
-router.post('/new', RequestController.processNewRequest);
-router.post('/doctor-response', RequestController.processDoctorResponse);
-router.post('/doctor-finished', RequestController.processDoctorFinished);
 
 router.post('/delete-many', RequestController.deleteRequests);
 

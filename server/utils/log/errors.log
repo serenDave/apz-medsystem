@@ -39,3 +39,17 @@
 {"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"testdoctor@gmail.com\" }","level":"error","timestamp":"2021-06-22T13:31:34.856Z"}
 {"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"adamjohnson@gmail.com\" }","level":"error","timestamp":"2021-06-22T13:32:21.798Z"}
 {"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"adamjohnson@gmail.com\" }","level":"error","timestamp":"2021-06-22T13:34:59.186Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:03:59.677Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:04:07.876Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:32:10.123Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:32:24.337Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:33:00.858Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:35:02.049Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:38:07.002Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:38:26.723Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:41:14.521Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:41:26.870Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:42:04.677Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:44:41.509Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:44:45.042Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T15:45:24.304Z"}
