@@ -4,6 +4,12 @@ const router = express.Router();
 const UserController = require('../controllers/user.controller');
 const AuthController = require('../controllers/auth.controller');
 
+router.post('/signup', AuthController.signUp);
+router.post('/signin', AuthController.signIn);
+
+
+router.use(AuthController.protect);
+
 router.route('/')
   .get(UserController.getAllUsers)
   .post(UserController.createUser);
@@ -13,9 +19,6 @@ router
   .get(UserController.getSingleUser)
   .patch(UserController.updateUser)
   .delete(UserController.deleteUser);
-
-router.post('/signup', AuthController.signUp);
-router.post('/signin', AuthController.signIn);
 
 router.post('/delete-many', UserController.deleteUsers);
 

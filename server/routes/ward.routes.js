@@ -2,8 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const WardController = require('../controllers/ward.controller');
+const AuthController = require('../controllers/auth.controller');
 
-router.route('/').get(WardController.getAllWards).post(WardController.createWard);
+router.use(AuthController.protect);
+
+router.route('/')
+  .get(WardController.getAllWards)
+  .post(WardController.createWard);
 
 router
   .route('/:id')

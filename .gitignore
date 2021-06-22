@@ -62,3 +62,5 @@ server/firebase-key.json
 *.tar.gz
 
 *.log
+
+/server/backup

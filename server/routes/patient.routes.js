@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const PatientController = require('../controllers/patient.controller');
+const AuthController = require('../controllers/auth.controller');
+
+router.use(AuthController.protect);
 
 router.route('/')
   .get(PatientController.getAllPatients)

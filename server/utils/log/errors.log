@@ -8,3 +8,8 @@
 {"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"testdoctor@gmail.com\" }","level":"error","timestamp":"2021-06-17T11:18:01.293Z"}
 {"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"testdoctor@gmail.com\" }","level":"error","timestamp":"2021-06-18T15:45:10.449Z"}
 {"message":"There is no user found with this email and password","level":"error","timestamp":"2021-06-19T06:29:51.642Z"}
+{"message":"There is no user found with this email and password","level":"error","timestamp":"2021-06-21T08:40:24.253Z"}
+{"message":"E11000 duplicate key error collection: medsystem.users index: email_1 dup key: { email: \"testdoctor@gmail.com\" }","level":"error","timestamp":"2021-06-21T08:49:36.156Z"}
+{"message":"You are not authorized. Please log in to access","level":"error","timestamp":"2021-06-22T11:29:34.963Z"}
+{"message":"Incorrect email or password","level":"error","timestamp":"2021-06-22T11:33:00.790Z"}
+{"message":"Incorrect email or password","level":"error","timestamp":"2021-06-22T11:35:04.697Z"}

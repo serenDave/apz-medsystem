@@ -40,10 +40,10 @@ exports.signIn = async (req, res, next) => {
     return next(new AppError('Please provide an email or password', 400));
   }
 
-  const user = await User.findOne({ email, password });
+  const user = await User.findOne({ email }).select('+password');
 
-  if (!user) {
-    return next(new AppError('There is no user found with this email and password', 401));
+  if (!user || !(await user.checkPasswords(password, user.password))) {
+    return next(new AppError('Incorrect email or password', 401));
   }
 
   if (deviceIdToken) {
@@ -65,7 +65,14 @@ exports.protect = async (req, res, next) => {
     return next(new AppError('You are not authorized. Please log in to access', 401));
   }
 
-  const decodedToken = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  let decodedToken;
+
+  try {
+    decodedToken = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  } catch (e) {
+    return next(new AppError(e.meessage, 401));
+  }
+
   const currentUser = await User.findById(decodedToken.id);
 
   if (!currentUser) {

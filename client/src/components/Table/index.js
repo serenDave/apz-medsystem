@@ -302,8 +302,6 @@ const EnhancedTable = ({
                     </TableCell>
                     {Object.keys(row).map((key) => {
                       if (!['id', 'translate'].includes(key)) {
-                        console.log(row.translate[key]);
-
                         return (
                           <TableCell
                             id={labelId}
@@ -311,7 +309,7 @@ const EnhancedTable = ({
                             scope='row'
                             padding='none'
                           >
-                            {row?.translate[key]
+                            {row?.translate && row?.translate[key]
                               ? t(`${row.translate[key]}.${row[key]}`)
                               : row[key]}
                           </TableCell>
