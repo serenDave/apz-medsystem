@@ -14,13 +14,15 @@ const doctorSchema = new mongoose.Schema({
   status: {
     type: String,
     default: 'free',
-    enum: ['occupied', 'free']
+    enum: ['occupied', 'free'],
   },
-  patients: [mongoose.Schema.Types.ObjectId]
+  patients: [mongoose.Schema.Types.ObjectId],
 });
 
 doctorSchema.post(/delete/i, async function (doc) {
-  await User.findOneAndDelete({ doctorId: doc._id });
+  await User.findOneAndDelete({
+    $and: [{ doctorId: { $exists: true } }, { doctorId: doc._id }],
+  });
 });
 
 const Doctor = mongoose.model('Doctor', doctorSchema);

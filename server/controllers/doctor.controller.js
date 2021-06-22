@@ -9,7 +9,16 @@ exports.getSingleDoctor = dbMethods.getOne(Doctor);
 exports.createDoctor = dbMethods.createOne(Doctor);
 exports.updateDoctor = dbMethods.updateOne(Doctor);
 exports.deleteDoctor = dbMethods.deleteOne(Doctor);
-exports.deleteDoctors = dbMethods.deleteMany(Doctor);
+exports.deleteDoctors = catchError(async (req, res, next) => {
+  for (const id of req.body.ids) {
+    await Doctor.findByIdAndDelete(id);
+  }
+
+  res.status(204).json({
+    status: 'success',
+    data: null
+  });
+});
 
 exports.addDoctor = catchError(async (req, res, next) => {
   const { fullName, speciality, username, email, password } = req.body;

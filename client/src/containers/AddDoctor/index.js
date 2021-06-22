@@ -9,20 +9,28 @@ const AddDoctor = ({ history }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState();
 
+  const [type, setType] = useState();
+  const [message, setMessage] = useState();
+
   const submitHandler = (values) => {
     api
       .post('/doctors/add-doctor', values)
       .then((response) => {
         if (response.data.status === 'success') {
+          setType('success');
+          setMessage('Doctor registered successfully');
           setOpen(true);
-
-          setTimeout(() => {
-            history.push('/doctors');
-          }, 1000);
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setType('error');
+        setMessage('Failed to register a doctor. Maybe such credentials are already used');
+        setOpen(true);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          history.push('/doctors');
+        }, 2000);
       });
   };
 
@@ -40,11 +48,14 @@ const AddDoctor = ({ history }) => {
         title={t('addDoctor.title')}
         submitTitle={t('addDoctor.submit')}
       />
-      <Snackbar
-        open={open}
-        handleClose={() => setOpen(false)}
-        message={'Doctor registered successfully'}
-      />
+      {type && message && (
+        <Snackbar
+          open={open}
+          handleClose={() => setOpen(false)}
+          message={message}
+          type={type}
+        />
+      )}
     </Paper>
   );
 };

@@ -1,20 +1,30 @@
-import { Box, Button, Container, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Container,
+  makeStyles,
+  Paper,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { api } from '../../config';
 import { useDispatch } from 'react-redux';
 import { actions } from '../../redux/actions';
+import Snackbar from '../../components/UI/Snackbar';
+import useSnackbar from '../../hooks/useSnackbar';
 
 const useStyles = makeStyles({
   root: {
     height: 'calc(100vh - 64px)',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   form: {
-    padding: 16
-  }
+    padding: 16,
+  },
 });
 
 const Login = ({ history }) => {
@@ -23,22 +33,25 @@ const Login = ({ history }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const { opened, open, close } = useSnackbar();
 
   const login = async () => {
-    const result = await api.post('/users/signin', {
-      email,
-      password
-    });
+    try {
+      const result = await api.post('/users/signin', {
+        email,
+        password,
+      });
 
-    console.log(result);
+      if (result.data.status === 'success') {
+        localStorage.setItem('token', result.data.token);
+        localStorage.setItem('user', JSON.stringify(result.data.data.user));
+        dispatch(actions.user.setUser(result.data.data.user));
+        dispatch(actions.user.setToken(result.data.token));
 
-    if (result.data.status === 'success') {
-      localStorage.setItem('token', result.data.token);
-      localStorage.setItem('user', JSON.stringify(result.data.data.user));
-      dispatch(actions.user.setUser(result.data.data.user));
-      dispatch(actions.user.setToken(result.data.token));
-
-      history.push('/patients');
+        history.push('/patients');
+      }
+    } catch (e) {
+      open();
     }
   };
 
@@ -78,6 +91,14 @@ const Login = ({ history }) => {
           </Box>
         </Paper>
       </Container>
+      <Snackbar
+        message={
+          'There was an error logging in. Please check your email and password'
+        }
+        type={'error'}
+        open={opened}
+        handleClose={close}
+      />
     </div>
   );
 };
