@@ -26,7 +26,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding, MainReposi
         viewModel.getPatients()
         showProgressBar()
 
-        viewModel.patientsResponse.observe(viewLifecycleOwner, Observer {
+        viewModel.patientsResponse.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Success -> {
                     hideProgressBar()

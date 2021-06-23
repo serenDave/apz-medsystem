@@ -1,6 +1,5 @@
 package com.example.apz_medsystem.ui.base
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import com.example.apz_medsystem.data.network.RemoteDataSource
 import com.example.apz_medsystem.data.repository.BaseRepository
 
 abstract class BaseFragment<VM: ViewModel, B: ViewBinding, R: BaseRepository>: Fragment() {
-
     protected lateinit var userPreferences: UserPreferences
     protected lateinit var binding: B
     protected lateinit var viewModel: VM

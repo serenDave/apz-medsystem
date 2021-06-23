@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Observer
 import com.example.apz_medsystem.databinding.FragmentLoginBinding
 import com.example.apz_medsystem.data.network.AuthApi
 import com.example.apz_medsystem.data.network.Resource

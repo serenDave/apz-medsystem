@@ -22,7 +22,7 @@ class CurrentPatientFragment : BaseFragment<HomeViewModel, FragmentCurrentPatien
         super.onActivityCreated(savedInstanceState)
         setupRecyclerView()
 
-        viewModel.getCurrentPatients().observe(viewLifecycleOwner, Observer { patients ->
+        viewModel.getCurrentPatients().observe(viewLifecycleOwner, { patients ->
             Log.d("CURRENT_PATIENT", "Response: $patients")
             currentPatientsAdapter.differ.submitList(patients)
         })
